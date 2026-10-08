@@ -91,16 +91,16 @@ export type Room = { title: string; src: string; category: string };
 
 // Photos from the original Residences page.
 export const rooms: Room[] = [
-  { title: "Bedroom one", src: "/images/rooms/room-4315.jpg", category: "Bedrooms" },
-  { title: "Bedroom two", src: "/images/rooms/room-4281.jpg", category: "Bedrooms" },
-  { title: "Bedroom three", src: "/images/rooms/room-4262.jpg", category: "Bedrooms" },
-  { title: "Bathroom", src: "/images/rooms/room-4266.jpg", category: "Bathrooms" },
-  { title: "Shower", src: "/images/rooms/room-4268.jpg", category: "Bathrooms" },
-  { title: "Bathroom and shower", src: "/images/rooms/room-4289.jpg", category: "Bathrooms" },
-  { title: "Living room", src: "/images/rooms/room-4271.jpg", category: "Living spaces" },
-  { title: "Dining room", src: "/images/rooms/room-4308.jpg", category: "Living spaces" },
-  { title: "Kitchen", src: "/images/rooms/room-4305.jpg", category: "Living spaces" },
-  { title: "Sun room", src: "/images/rooms/room-4275.jpg", category: "Living spaces" },
+  { title: "Bedroom one", src: "/images/rooms/room-4315.jpg", category: "Sleeping" },
+  { title: "Bedroom two", src: "/images/rooms/room-4281.jpg", category: "Sleeping" },
+  { title: "Bedroom three", src: "/images/rooms/room-4262.jpg", category: "Sleeping" },
+  { title: "Bathroom", src: "/images/rooms/room-4266.jpg", category: "Bathing" },
+  { title: "Shower", src: "/images/rooms/room-4268.jpg", category: "Bathing" },
+  { title: "Bathroom and shower", src: "/images/rooms/room-4289.jpg", category: "Bathing" },
+  { title: "Living room", src: "/images/rooms/room-4271.jpg", category: "Relaxing" },
+  { title: "Dining room", src: "/images/rooms/room-4308.jpg", category: "Eating & cooking" },
+  { title: "Kitchen", src: "/images/rooms/room-4305.jpg", category: "Eating & cooking" },
+  { title: "Sun room", src: "/images/rooms/room-4275.jpg", category: "Relaxing" },
 ];
 
 export const testimonials = [
@@ -109,6 +109,7 @@ export const testimonials = [
       "Mom suffers from dementia/Alzheimer’s, and her deterioration has really been painful. We moved Mom to EllaCare in early June, and the improvement has been dramatic. It is really gratifying to see her more like her old self than she has been in some time. One big improvement is that EllaCare embraces new technology. Mom had pretty much stopped talking while on the phone, but once we started Skyping with her she seemed to recognize us and engage in some limited conversations. We now get to see her smile. She seems to really like the people and has taken a shine to Bee. She likes the food and seems to be a lot happier, so we are extremely glad we decided to have her stay there.",
     author: "Carol DeQuoy",
     relation: "Family of a resident",
+    highlight: "We now get to see her smile.",
   },
 ];
 

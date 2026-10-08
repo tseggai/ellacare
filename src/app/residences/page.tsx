@@ -19,7 +19,7 @@ export default function ResidencesPage() {
             Take a look <span className="accent grad-text">around.</span>
           </>
         }
-        intro="A comfortable, tasteful home is at the heart of what we do. Explore our bedrooms, accessible bathrooms and shared living spaces."
+        intro="Providing a home atmosphere that is comfortable and tasteful is our core mission. Explore our relaxing, eating and cooking, sleeping, bathing and outdoor spaces."
       />
       <section className="container-page pb-8">
         <Gallery rooms={rooms} />

@@ -7,7 +7,6 @@ const legacy: Record<string, string> = {
   "/menus": "/dining",
   "/security": "/safety",
   "/policy": "/safety",
-  "/testimonials": "/#testimonials",
   "/feed": "/",
 };
 

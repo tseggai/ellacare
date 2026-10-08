@@ -10,13 +10,14 @@ This is a rebuild of ellacare.com, the site for an adult family home in Lynnwood
 
 | Route | Replaces old URL |
 | --- | --- |
-| `/` (home, testimonials, FAQ) | `/`, `/testimonials` |
+| `/` (home, featured testimonial, FAQ) | `/` |
 | `/about` | `/about-us` |
 | `/services` | `/services` |
 | `/residences` (photo gallery + lightbox) | `/residences` |
 | `/dining` | `/menus` |
 | `/activities` | `/activities` |
 | `/safety` | `/security`, `/policy` |
+| `/testimonials` (from Supabase) | `/testimonials` |
 | `/contact` (tour request form + map) | `/contact-us` |
 | `/privacy` | `/privacy` |
 
@@ -34,6 +35,21 @@ Old URLs permanently redirect to the new ones (see `next.config.ts`), so existin
 
 New submissions show up in **Table Editor → inquiries**. The `type` column says whether each one is a `tour`, a `callback` (name and phone only, from the home page) or a `question`. Use the `status` column (`new`, `contacted`, `toured`, `closed`) to track follow-up.
 Row-level security is on and there are no public policies, so only the server (which holds the secret key) can write to the table, and the browser can't read it.
+
+#### Adding a testimonial
+
+Open **Table Editor → testimonials** and click **Insert row**:
+
+| Column | What to put |
+| --- | --- |
+| `author` | Name as it should appear, e.g. `Carol DeQuoy` |
+| `relation` | Optional, e.g. `Daughter of a resident` |
+| `quote` | The full testimonial |
+| `highlight` | Optional short pull-quote (one sentence) shown large on cards |
+| `published` | Untick to hide it without deleting |
+| `sort_order` | Lower numbers show first; the lowest is the featured story on the home page |
+
+The website checks for changes once an hour, so a new story appears within the hour. To see it sooner, redeploy in Vercel.
 
 ### 2. Vercel (about 5 min)
 

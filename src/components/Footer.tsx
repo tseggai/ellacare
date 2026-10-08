@@ -58,7 +58,7 @@ export function Footer() {
         <div className="md:col-span-3">
           <h2 className="text-sm font-bold tracking-[0.14em] text-sky uppercase">Explore</h2>
           <ul className="mt-5 grid gap-2.5">
-            {[...nav, { href: "/contact", label: "Contact & tours" }, { href: "/privacy", label: "Privacy" }].map(
+            {[...nav, { href: "/testimonials", label: "Family stories" }, { href: "/contact", label: "Contact & tours" }, { href: "/privacy", label: "Privacy" }].map(
               (item) => (
                 <li key={item.href}>
                   <Link href={item.href} className="hover:text-white">
