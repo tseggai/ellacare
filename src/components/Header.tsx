@@ -2,6 +2,7 @@
 
 import { Menu, Phone, X } from "lucide-react";
 import Link from "next/link";
+import { InquiryButton } from "@/components/inquiry/InquiryButton";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { nav, site } from "@/lib/site";
@@ -75,9 +76,9 @@ export function Header() {
             <Phone className="h-4 w-4 text-brand" aria-hidden />
             {site.phones.main.display}
           </a>
-          <Link href="/contact" className="btn-primary hidden min-h-11 px-5 sm:inline-flex">
+          <InquiryButton inquiry="tour" className="btn-primary hidden min-h-11 px-5 sm:inline-flex">
             Book a tour
-          </Link>
+          </InquiryButton>
           <button
             type="button"
             className="grid h-11 w-11 place-items-center rounded-full bg-ink text-white lg:hidden"
@@ -112,9 +113,9 @@ export function Header() {
             </ul>
           </nav>
           <div className="mt-auto grid gap-2 pt-6">
-            <Link href="/contact" className="btn-primary">
+            <InquiryButton inquiry="tour" className="btn-primary" onClick={() => setOpen(false)}>
               Book a tour
-            </Link>
+            </InquiryButton>
             <a href={`tel:${site.phones.main.tel}`} className="btn-ghost">
               <Phone className="h-4 w-4" aria-hidden /> Call {site.phones.main.display}
             </a>

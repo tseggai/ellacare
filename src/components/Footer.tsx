@@ -1,5 +1,6 @@
 import { ArrowUpRight, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
+import { InquiryButton } from "@/components/inquiry/InquiryButton";
 import { nav, site } from "@/lib/site";
 import { Logo } from "./Logo";
 
@@ -14,9 +15,9 @@ export function Footer() {
             {site.kind} in {address.city}, Washington. {site.tagline}.
           </p>
           {site.licenseNumber && <p className="mt-3 text-sm">WA DSHS license #{site.licenseNumber}</p>}
-          <Link href="/contact" className="btn-light mt-8">
+          <InquiryButton inquiry="tour" className="btn-light mt-8">
             Book a tour
-          </Link>
+          </InquiryButton>
         </div>
 
         <div className="md:col-span-4">

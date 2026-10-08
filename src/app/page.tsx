@@ -1,6 +1,7 @@
 import { ArrowRight, ArrowUpRight, Phone, Quote } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { InquiryButton } from "@/components/inquiry/InquiryButton";
 import { CallbackForm } from "@/components/CallbackForm";
 import { CheckList } from "@/components/CheckList";
 import { CtaBand } from "@/components/CtaBand";
@@ -50,9 +51,9 @@ export default async function Home() {
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href="/contact" className="btn-primary">
+              <InquiryButton inquiry="tour" className="btn-primary">
                 Book a tour <ArrowRight className="h-4 w-4" aria-hidden />
-              </Link>
+              </InquiryButton>
               <a href={`tel:${site.phones.main.tel}`} className="btn-ghost">
                 <Phone className="h-4 w-4 text-brand" aria-hidden /> Call {site.phones.main.display}
               </a>
@@ -321,9 +322,9 @@ export default async function Home() {
           ))}
         </ol>
         <div className="mt-10 flex justify-center">
-          <Link href="/contact" className="btn-primary">
+          <InquiryButton inquiry="tour" className="btn-primary">
             Start with a tour <ArrowRight className="h-4 w-4" aria-hidden />
-          </Link>
+          </InquiryButton>
         </div>
       </section>
 

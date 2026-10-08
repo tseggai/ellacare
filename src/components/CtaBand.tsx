@@ -1,5 +1,5 @@
 import { ArrowRight, MapPin, Phone } from "lucide-react";
-import Link from "next/link";
+import { InquiryButton } from "@/components/inquiry/InquiryButton";
 import { site } from "@/lib/site";
 
 export function CtaBand({
@@ -26,9 +26,9 @@ export function CtaBand({
             <h2 className="h2 max-w-2xl sm:text-6xl">{title}</h2>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/75 sm:text-xl">{body}</p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <Link href="/contact" className="btn-light">
+              <InquiryButton inquiry="tour" className="btn-light">
                 Book a tour <ArrowRight className="h-4 w-4" aria-hidden />
-              </Link>
+              </InquiryButton>
               <a href={`tel:${site.phones.main.tel}`} className="btn bg-white/10 text-white ring-1 ring-white/25 hover:bg-white/15">
                 <Phone className="h-4 w-4" aria-hidden /> {site.phones.main.display}
               </a>

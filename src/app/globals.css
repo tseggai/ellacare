@@ -49,7 +49,6 @@
 }
 
 html {
-  scroll-behavior: smooth;
   scroll-padding-top: 6rem;
   /* Slightly larger base size: many visitors are older adults. */
   font-size: 106.25%;
@@ -84,9 +83,6 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
   *,
   *::before,
   *::after {

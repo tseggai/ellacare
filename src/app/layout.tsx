@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Figtree, Instrument_Serif } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { InquiryProvider } from "@/components/inquiry/InquiryProvider";
 import { MobileActionBar } from "@/components/MobileActionBar";
 import { site } from "@/lib/site";
 import "./globals.css";
@@ -57,10 +58,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         >
           Skip to content
         </a>
-        <Header />
-        <main id="main">{children}</main>
-        <Footer />
-        <MobileActionBar />
+        <InquiryProvider>
+          <Header />
+          <main id="main">{children}</main>
+          <Footer />
+          <MobileActionBar />
+        </InquiryProvider>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusiness) }} />
       </body>
     </html>
