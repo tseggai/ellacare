@@ -1,18 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Atkinson_Hyperlegible, Fraunces } from "next/font/google";
+import { Figtree, Instrument_Serif } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { MobileActionBar } from "@/components/MobileActionBar";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-// Atkinson Hyperlegible was designed for low-vision readers.
-const body = Atkinson_Hyperlegible({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-body",
-});
-const heading = Fraunces({ subsets: ["latin"], variable: "--font-heading" });
+// Figtree: clean, friendly and highly legible. Instrument Serif: italic accent words.
+const body = Figtree({ subsets: ["latin"], variable: "--font-body" });
+const accent = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-accent" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -29,7 +25,7 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = { themeColor: "#263d8a" };
+export const viewport: Viewport = { themeColor: "#f6f4ef" };
 
 const localBusiness = {
   "@context": "https://schema.org",
@@ -53,11 +49,11 @@ const localBusiness = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${body.variable} ${heading.variable}`}>
+    <html lang="en" className={`${body.variable} ${accent.variable}`}>
       <body className="flex min-h-screen flex-col">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-lg focus:bg-white focus:p-3"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:text-white"
         >
           Skip to content
         </a>

@@ -3,19 +3,30 @@
 import { z } from "zod";
 import { getSupabaseAdmin } from "@/lib/supabase";
 
-const schema = z.object({
-  type: z.enum(["tour", "question"]),
-  name: z.string().trim().min(1, "Please enter your name.").max(200),
-  email: z.string().trim().email("Please enter a valid email address.").max(320),
-  phone: z.string().trim().max(40).optional(),
-  relationship: z.string().trim().max(100).optional(),
-  preferred_date: z
-    .string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/)
-    .optional(),
-  care_needs: z.string().trim().max(2000).optional(),
-  message: z.string().trim().max(5000).optional(),
-});
+const schema = z
+  .object({
+    type: z.enum(["tour", "question", "callback"]),
+    name: z.string().trim().min(1, "Please enter your name.").max(200),
+    email: z.string().trim().email("Please enter a valid email address.").max(320).optional(),
+    phone: z.string().trim().max(40).optional(),
+    relationship: z.string().trim().max(100).optional(),
+    preferred_date: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/)
+      .optional(),
+    care_needs: z.string().trim().max(2000).optional(),
+    message: z.string().trim().max(5000).optional(),
+  })
+  .superRefine((data, ctx) => {
+    // A callback needs a phone number; tours and questions need an email.
+    if (data.type === "callback") {
+      if ((data.phone?.replace(/\D/g, "").length ?? 0) < 7) {
+        ctx.addIssue({ code: "custom", path: ["phone"], message: "Please enter a phone number we can call." });
+      }
+    } else if (!data.email) {
+      ctx.addIssue({ code: "custom", path: ["email"], message: "Please enter your email address." });
+    }
+  });
 
 export type InquiryState = {
   status: "idle" | "success" | "error";
@@ -83,8 +94,8 @@ async function notify(data: z.infer<typeof schema>) {
     body: JSON.stringify({
       from: process.env.INQUIRY_FROM_EMAIL ?? "EllaCare Website <onboarding@resend.dev>",
       to: to.split(",").map((s) => s.trim()),
-      reply_to: data.email,
-      subject: `New ${data.type === "tour" ? "tour request" : "question"} from ${data.name}`,
+      ...(data.email && { reply_to: data.email }),
+      subject: `New ${{ tour: "tour request", question: "question", callback: "callback request" }[data.type]} from ${data.name}`,
       text: lines.join("\n"),
     }),
   });

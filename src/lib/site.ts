@@ -138,3 +138,45 @@ export const faqs = [
     a: "Yes. Smoking is not allowed in or around the home. There is a designated outdoor smoking area.",
   },
 ];
+
+// "At a glance" answers for the home page; each links to its detail page.
+export const glance = [
+  {
+    key: "care",
+    title: "24/7 care",
+    body: "Round-the-clock monitoring, alerting and response, every day of the year.",
+    href: "/services",
+  },
+  {
+    key: "medical",
+    title: "Nurse on call",
+    body: "Nurse available 24/7, a home doctor, on-site OT/PT visits and medication management.",
+    href: "/services#medical",
+  },
+  {
+    key: "rooms",
+    title: "Private & shared rooms",
+    body: "Comfortable bedrooms, each with its own phone. Assigned by availability and medical needs.",
+    href: "/residences",
+  },
+  {
+    key: "meals",
+    title: "Home-cooked meals",
+    body: "Three fresh meals a day plus snacks any time, with menus tailored to each resident.",
+    href: "/dining",
+  },
+  {
+    key: "family",
+    title: "Family stays close",
+    body: "Visitors welcome by appointment, in-room phones and video calls with loved ones.",
+    href: "/services#connected",
+  },
+  {
+    key: "location",
+    title: "Lynnwood, WA",
+    body: "A quiet residential neighborhood in the heart of Lynnwood.",
+    href: "/contact#visit",
+  },
+] as const;
+
+export const trustPoints = ["24/7 care", "Nurse on call", "Private rooms", "Home-cooked meals"];

@@ -1,38 +1,85 @@
 @import "tailwindcss";
 
-/* Palette drawn from the EllaCare logo (periwinkle + slate), warmed with a cream ground. */
+/* Palette: deep indigo + periwinkle from the EllaCare logo, warmed with paper and apricot. */
 @theme {
-  --color-ink: #1d2533;
-  --color-muted: #4b5565;
-  --color-line: #e4ddd2;
-  --color-cream: #faf7f2;
-  --color-sand: #f2ece2;
-  --color-brand: #3552b0;
-  --color-brand-dark: #263d8a;
-  --color-brand-soft: #e6ebfa;
-  --color-sky: #7b98ea;
-  --color-warm: #b5643c;
+  --color-paper: #f6f4ef;
+  --color-paper-2: #efebe3;
+  --color-ink: #0f1729;
+  --color-muted: #586174;
+  --color-line: #e5e0d6;
+  --color-brand: #3550d4;
+  --color-brand-hover: #2a41b3;
+  --color-night: #111b45;
+  --color-night-2: #1b2760;
+  --color-peri: #9db1ff;
+  --color-peri-tint: #e8edff;
+  --color-apricot: #ffb86b;
+  --color-apricot-tint: #fff0dd;
+  --color-leaf: #1f8a52;
 
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-heading), ui-serif, Georgia, serif;
+  --font-serif: var(--font-accent), ui-serif, Georgia, serif;
+
+  --radius-4xl: 2rem;
+  --radius-5xl: 2.5rem;
+
+  --animate-rise: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-float: float 6s ease-in-out infinite;
+
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 html {
   scroll-behavior: smooth;
-  /* Slightly larger base size: much of our audience is older adults. */
-  font-size: 112.5%;
+  scroll-padding-top: 6rem;
+  /* Slightly larger base size: many visitors are older adults. */
+  font-size: 106.25%;
 }
 
 body {
-  background: var(--color-cream);
+  background: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-peri);
+  color: var(--color-ink);
 }
 
 :focus-visible {
-  outline: 3px solid var(--color-sky);
-  outline-offset: 2px;
+  outline: 3px solid var(--color-brand);
+  outline-offset: 3px;
+  border-radius: 0.5rem;
+}
+
+/* Sections fade up as they scroll into view (where supported). */
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 40%;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -42,29 +89,54 @@ body {
   *,
   *::before,
   *::after {
-    transition: none !important;
     animation: none !important;
+    transition: none !important;
   }
 }
 
 @utility container-page {
-  @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+  @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
 }
+
 @utility btn {
-  @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 font-semibold transition-colors;
+  @apply inline-flex min-h-13 items-center justify-center gap-2 rounded-full px-6 text-[1.0625rem] font-semibold whitespace-nowrap transition-all duration-200 active:scale-[0.98];
 }
 @utility btn-primary {
-  @apply btn bg-brand text-white hover:bg-brand-dark;
+  @apply btn bg-brand text-white shadow-[0_8px_24px_-8px_rgb(53_80_212/0.6)] hover:bg-brand-hover hover:shadow-[0_12px_28px_-8px_rgb(53_80_212/0.7)];
 }
-@utility btn-outline {
-  @apply btn border-2 border-brand text-brand hover:bg-brand-soft;
+@utility btn-ghost {
+  @apply btn bg-white text-ink ring-1 ring-line hover:ring-ink/30;
 }
+@utility btn-light {
+  @apply btn bg-white text-night hover:bg-peri-tint;
+}
+
+@utility chip {
+  @apply inline-flex items-center gap-2 rounded-full bg-white/80 px-3.5 py-1.5 text-sm font-semibold text-ink ring-1 ring-line backdrop-blur;
+}
+
 @utility eyebrow {
-  @apply text-sm font-semibold tracking-widest text-warm uppercase;
+  @apply inline-flex items-center gap-2 text-sm font-bold tracking-[0.14em] text-brand uppercase;
 }
-@utility h1 {
-  @apply font-display text-4xl leading-tight font-semibold text-balance sm:text-5xl;
+
+@utility display {
+  @apply text-[2.75rem] leading-[1.02] font-semibold tracking-[-0.035em] text-balance sm:text-6xl lg:text-7xl;
 }
 @utility h2 {
-  @apply font-display text-3xl leading-tight font-semibold text-balance sm:text-4xl;
+  @apply text-[2rem] leading-[1.08] font-semibold tracking-[-0.03em] text-balance sm:text-5xl;
+}
+@utility h3 {
+  @apply text-xl leading-snug font-semibold tracking-[-0.01em];
+}
+@utility lead {
+  @apply text-lg leading-relaxed text-muted sm:text-xl;
+}
+
+/* Italic serif accent word inside headings. */
+@utility accent {
+  @apply font-serif font-normal tracking-[-0.01em] italic;
+}
+
+@utility card {
+  @apply rounded-4xl bg-white ring-1 ring-line;
 }

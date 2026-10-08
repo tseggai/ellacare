@@ -1,6 +1,6 @@
 # EllaCare website
 
-This is a rebuild of ellacare.com, the site for an adult family home in Lynnwood, WA. It runs on **Next.js 16 + Tailwind CSS 4** and is hosted on **Vercel**. **Supabase** stores tour requests and contact messages.
+This is a rebuild of ellacare.com, the site for an adult family home in Lynnwood, WA. It runs on **Next.js 16 + Tailwind CSS 4** and is hosted on **Vercel**. **Supabase** stores tour requests, callback requests and questions.
 
 - All business info and copy: [`src/lib/site.ts`](src/lib/site.ts). Change it there and every page updates.
 - Content extracted from the old site: [`docs/content-inventory.md`](docs/content-inventory.md)
@@ -32,7 +32,7 @@ Old URLs permanently redirect to the new ones (see `next.config.ts`), so existin
    - the **Project URL** → `SUPABASE_URL`
    - a **Secret key** (`sb_secret_…`, or the legacy `service_role` key) → `SUPABASE_SECRET_KEY`
 
-New submissions show up in **Table Editor → inquiries**. Use the `status` column (`new`, `contacted`, `toured`, `closed`) to track follow-up.
+New submissions show up in **Table Editor → inquiries**. The `type` column says whether each one is a `tour`, a `callback` (name and phone only, from the home page) or a `question`. Use the `status` column (`new`, `contacted`, `toured`, `closed`) to track follow-up.
 Row-level security is on and there are no public policies, so only the server (which holds the secret key) can write to the table, and the browser can't read it.
 
 ### 2. Vercel (about 5 min)

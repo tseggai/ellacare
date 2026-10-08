@@ -1,12 +1,17 @@
-export function CheckList({ items, columns = 1 }: { items: string[]; columns?: 1 | 2 }) {
+import { Check } from "lucide-react";
+
+export function CheckList({ items, columns = 1, tone = "light" }: { items: readonly string[]; columns?: 1 | 2; tone?: "light" | "dark" }) {
   return (
-    <ul className={`grid gap-3 ${columns === 2 ? "sm:grid-cols-2" : ""}`}>
+    <ul className={`grid gap-x-8 gap-y-3.5 ${columns === 2 ? "sm:grid-cols-2" : ""}`}>
       {items.map((item) => (
-        <li key={item} className="flex gap-3 text-lg">
-          <svg viewBox="0 0 20 20" aria-hidden="true" className="mt-1 h-5 w-5 shrink-0 text-brand">
-            <circle cx="10" cy="10" r="10" fill="currentColor" opacity=".15" />
-            <path d="M6 10.5l2.5 2.5L14 7.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+        <li key={item} className="flex gap-3 text-lg leading-snug">
+          <span
+            className={`mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full ${
+              tone === "dark" ? "bg-peri/20 text-peri" : "bg-peri-tint text-brand"
+            }`}
+          >
+            <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden />
+          </span>
           <span>{item}</span>
         </li>
       ))}

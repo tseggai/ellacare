@@ -14,14 +14,23 @@ export default function ResidencesPage() {
     <>
       <PageHero
         eyebrow="Our home"
-        title="Take a look around"
-        intro="Providing a comfortable, tasteful home is at the heart of what we do. Explore our bedrooms, accessible bathrooms, and shared living, dining and outdoor spaces."
-        image="/images/rooms/room-4281.jpg"
+        title={
+          <>
+            Take a look <span className="accent text-brand">around.</span>
+          </>
+        }
+        intro="A comfortable, tasteful home is at the heart of what we do. Explore our bedrooms, accessible bathrooms and shared living spaces."
       />
-      <section className="container-page py-16">
+      <section className="container-page pb-8">
         <Gallery rooms={rooms} />
       </section>
-      <CtaBand title="Photos are nice. Visiting is better." />
+      <CtaBand
+        title={
+          <>
+            Photos are nice. <span className="accent text-peri">Visiting is better.</span>
+          </>
+        }
+      />
     </>
   );
 }
