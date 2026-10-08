@@ -1,5 +1,6 @@
 import { ArrowUpRight, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
+import { InquiryButton } from "@/components/inquiry/InquiryButton";
 import { nav, site } from "@/lib/site";
 import { Logo } from "./Logo";
 
@@ -14,9 +15,9 @@ export function Footer() {
             {site.kind} in {address.city}, Washington. {site.tagline}.
           </p>
           {site.licenseNumber && <p className="mt-3 text-sm">WA DSHS license #{site.licenseNumber}</p>}
-          <Link href="/contact" className="btn-light mt-8">
+          <InquiryButton inquiry="tour" className="btn-light mt-8">
             Book a tour
-          </Link>
+          </InquiryButton>
         </div>
 
         <div className="md:col-span-4">
@@ -58,7 +59,7 @@ export function Footer() {
         <div className="md:col-span-3">
           <h2 className="text-sm font-bold tracking-[0.14em] text-sky uppercase">Explore</h2>
           <ul className="mt-5 grid gap-2.5">
-            {[...nav, { href: "/contact", label: "Contact & tours" }, { href: "/privacy", label: "Privacy" }].map(
+            {[...nav, { href: "/testimonials", label: "Family stories" }, { href: "/contact", label: "Contact & tours" }, { href: "/privacy", label: "Privacy" }].map(
               (item) => (
                 <li key={item.href}>
                   <Link href={item.href} className="hover:text-white">

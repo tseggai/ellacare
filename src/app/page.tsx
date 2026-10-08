@@ -1,13 +1,15 @@
 import { ArrowRight, ArrowUpRight, Phone, Quote } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { InquiryButton } from "@/components/inquiry/InquiryButton";
 import { CallbackForm } from "@/components/CallbackForm";
 import { CheckList } from "@/components/CheckList";
 import { CtaBand } from "@/components/CtaBand";
 import { Faq, FaqJsonLd } from "@/components/Faq";
 import { glanceIcons } from "@/components/Icons";
 import { SectionHeading } from "@/components/SectionHeading";
-import { activities, basicServices, glance, rooms, site, testimonials, trustPoints } from "@/lib/site";
+import { activities, basicServices, glance, rooms, site, trustPoints } from "@/lib/site";
+import { getTestimonials, pullQuote } from "@/lib/testimonials";
 
 const steps = [
   { title: "Reach out", body: "Call, or request a tour or callback online. We’ll answer your questions and find a time that works." },
@@ -15,8 +17,13 @@ const steps = [
   { title: "Settle in", body: "Our interactive enrollment process makes sure EllaCare is the right fit, then we help with the move." },
 ];
 
-export default function Home() {
-  const testimonial = testimonials[0];
+// Testimonials come from Supabase; re-check for new ones at most once an hour.
+export const revalidate = 3600;
+
+export default async function Home() {
+  const stories = await getTestimonials();
+  const featured = stories[0];
+  const more = stories.slice(1, 3);
   const tour = rooms.filter((r) => r.title !== "Living room");
 
   return (
@@ -44,9 +51,9 @@ export default function Home() {
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href="/contact" className="btn-primary">
+              <InquiryButton inquiry="tour" className="btn-primary">
                 Book a tour <ArrowRight className="h-4 w-4" aria-hidden />
-              </Link>
+              </InquiryButton>
               <a href={`tel:${site.phones.main.tel}`} className="btn-ghost">
                 <Phone className="h-4 w-4 text-brand" aria-hidden /> Call {site.phones.main.display}
               </a>
@@ -76,8 +83,10 @@ export default function Home() {
 
             <div className="absolute -bottom-6 -left-3 w-[min(19rem,80%)] animate-float rounded-3xl bg-white p-5 shadow-[0_24px_60px_-24px_rgb(15_23_41/0.45)] ring-1 ring-line sm:-left-8">
               <Quote className="h-6 w-6 text-sage" aria-hidden />
-              <p className="mt-2 font-serif text-xl leading-snug italic">“We now get to see her smile.”</p>
-              <p className="mt-2 text-sm font-semibold text-muted">{testimonial.author}, family member</p>
+              <p className="mt-2 font-serif text-xl leading-snug italic">“{pullQuote(featured)}”</p>
+              <p className="mt-2 text-sm font-semibold text-muted">
+                {featured.author}{featured.relation ? `, ${featured.relation.toLowerCase()}` : ""}
+              </p>
             </div>
 
             <div className="absolute top-5 right-5 hidden rounded-2xl bg-white/90 px-4 py-3 shadow-lg ring-1 ring-line backdrop-blur sm:block">
@@ -246,23 +255,49 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ───────────── Testimonial ───────────── */}
-      <section id="testimonials" className={`bg-night py-20 text-white sm:py-28 [--grad-from:var(--color-sky)] [--grad-to:var(--color-sage)]`}>
-        <div className="container-page grid gap-12 lg:grid-cols-[1fr_1.6fr] lg:items-center">
-          <div className="reveal">
-            <p className="text-sm font-bold tracking-[0.14em] text-sky uppercase">Those who know us love us</p>
-            <p className="mt-6 font-serif text-5xl leading-[1.05] italic sm:text-6xl">
-              “The improvement has been dramatic.”
-            </p>
-            <p className="mt-6 text-lg">
-              <span className="font-semibold">{testimonial.author}</span>
-              <span className="text-white/60"> · {testimonial.relation}</span>
-            </p>
+      {/* ───────────── Testimonials ───────────── */}
+      <section
+        id="testimonials"
+        className="bg-night py-20 text-white sm:py-28 [--grad-from:var(--color-sky)] [--grad-to:var(--color-sage)]"
+      >
+        <div className="container-page">
+          <div className="grid gap-12 lg:grid-cols-[1fr_1.6fr] lg:items-center">
+            <div className="reveal">
+              <p className="text-sm font-bold tracking-[0.14em] text-sky uppercase">Those who know us love us</p>
+              <p className="mt-6 font-serif text-5xl leading-[1.05] italic sm:text-6xl">
+                <span className="grad-text">“{pullQuote(featured)}”</span>
+              </p>
+              <p className="mt-6 text-lg">
+                <span className="font-semibold">{featured.author}</span>
+                {featured.relation && <span className="text-white/60"> · {featured.relation}</span>}
+              </p>
+            </div>
+            <figure className="reveal relative rounded-4xl bg-white/5 p-8 ring-1 ring-white/10 sm:p-10">
+              <Quote className="h-10 w-10 text-sky" aria-hidden />
+              <blockquote className="mt-4 text-lg leading-relaxed text-white/85 sm:text-xl">{featured.quote}</blockquote>
+            </figure>
           </div>
-          <figure className="reveal relative rounded-4xl bg-white/5 p-8 ring-1 ring-white/10 sm:p-10">
-            <Quote className="h-10 w-10 text-sky" aria-hidden />
-            <blockquote className="mt-4 text-lg leading-relaxed text-white/85 sm:text-xl">{testimonial.quote}</blockquote>
-          </figure>
+
+          {more.length > 0 && (
+            <ul className="mt-6 grid gap-6 lg:grid-cols-2">
+              {more.map((t) => (
+                <li key={t.id} className="reveal rounded-4xl bg-white/5 p-8 ring-1 ring-white/10">
+                  <p className="font-serif text-2xl leading-snug italic">“{pullQuote(t)}”</p>
+                  <p className="mt-4 line-clamp-4 text-white/75">{t.quote}</p>
+                  <p className="mt-4 font-semibold">
+                    {t.author}
+                    {t.relation && <span className="font-normal text-white/60"> · {t.relation}</span>}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          <div className="mt-10 flex justify-center">
+            <Link href="/testimonials" className="btn-light">
+              {stories.length > 1 ? "Read all family stories" : "Read the full story"} <ArrowRight className="h-4 w-4" aria-hidden />
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -287,9 +322,9 @@ export default function Home() {
           ))}
         </ol>
         <div className="mt-10 flex justify-center">
-          <Link href="/contact" className="btn-primary">
+          <InquiryButton inquiry="tour" className="btn-primary">
             Start with a tour <ArrowRight className="h-4 w-4" aria-hidden />
-          </Link>
+          </InquiryButton>
         </div>
       </section>
 

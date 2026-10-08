@@ -2,6 +2,7 @@
 
 import { CalendarCheck, Phone } from "lucide-react";
 import Link from "next/link";
+import { InquiryButton } from "@/components/inquiry/InquiryButton";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { site } from "@/lib/site";
@@ -45,9 +46,9 @@ export function MobileActionBar() {
         >
           <Phone className="h-4 w-4 text-sky" aria-hidden /> {site.phones.main.display}
         </a>
-        <Link href="/contact" tabIndex={show ? 0 : -1} className="btn-light min-h-11 px-5">
+        <InquiryButton inquiry="tour" tabIndex={show ? 0 : -1} className="btn-light min-h-11 px-5">
           Book a tour
-        </Link>
+        </InquiryButton>
       </div>
     </>
   );

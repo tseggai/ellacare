@@ -1,6 +1,7 @@
 import { ChevronRight, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { InquiryButton } from "@/components/inquiry/InquiryButton";
 import { site } from "@/lib/site";
 
 export function PageHero({
@@ -33,9 +34,9 @@ export function PageHero({
           {intro && <p className="lead mt-6 max-w-2xl">{intro}</p>}
           {actions && (
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href="/contact" className="btn-primary">
+              <InquiryButton inquiry="tour" className="btn-primary">
                 Book a tour
-              </Link>
+              </InquiryButton>
               <a href={`tel:${site.phones.main.tel}`} className="btn-ghost">
                 <Phone className="h-4 w-4" aria-hidden /> {site.phones.main.display}
               </a>
