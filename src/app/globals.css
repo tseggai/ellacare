@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+/* Palette drawn from the EllaCare logo (periwinkle + slate), warmed with a cream ground. */
+@theme {
+  --color-ink: #1d2533;
+  --color-muted: #4b5565;
+  --color-line: #e4ddd2;
+  --color-cream: #faf7f2;
+  --color-sand: #f2ece2;
+  --color-brand: #3552b0;
+  --color-brand-dark: #263d8a;
+  --color-brand-soft: #e6ebfa;
+  --color-sky: #7b98ea;
+  --color-warm: #b5643c;
+
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-heading), ui-serif, Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Slightly larger base size: much of our audience is older adults. */
+  font-size: 112.5%;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-sky);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+@utility container-page {
+  @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+}
+@utility btn {
+  @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 font-semibold transition-colors;
+}
+@utility btn-primary {
+  @apply btn bg-brand text-white hover:bg-brand-dark;
+}
+@utility btn-outline {
+  @apply btn border-2 border-brand text-brand hover:bg-brand-soft;
+}
+@utility eyebrow {
+  @apply text-sm font-semibold tracking-widest text-warm uppercase;
+}
+@utility h1 {
+  @apply font-display text-4xl leading-tight font-semibold text-balance sm:text-5xl;
+}
+@utility h2 {
+  @apply font-display text-3xl leading-tight font-semibold text-balance sm:text-4xl;
+}
