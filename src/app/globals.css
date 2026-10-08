@@ -1,21 +1,23 @@
 @import "tailwindcss";
 
-/* Palette: deep indigo + periwinkle from the EllaCare logo, warmed with paper and apricot. */
+/* Palette from the EllaCare logo: a sky-blue → sage gradient. The logo tints are
+   too light for text on white, so `brand` and `leaf` are deeper versions for
+   buttons and copy; `sky` and `sage` are the logo colours themselves. */
 @theme {
-  --color-paper: #f6f4ef;
-  --color-paper-2: #efebe3;
-  --color-ink: #0f1729;
-  --color-muted: #586174;
-  --color-line: #e5e0d6;
-  --color-brand: #3550d4;
-  --color-brand-hover: #2a41b3;
-  --color-night: #111b45;
-  --color-night-2: #1b2760;
-  --color-peri: #9db1ff;
-  --color-peri-tint: #e8edff;
-  --color-apricot: #ffb86b;
-  --color-apricot-tint: #fff0dd;
-  --color-leaf: #1f8a52;
+  --color-paper: #f7f8f6;
+  --color-paper-2: #eef2ee;
+  --color-ink: #16232f;
+  --color-muted: #5b6470;
+  --color-line: #e0e6e4;
+  --color-brand: #2b76b0;
+  --color-brand-hover: #24659a;
+  --color-sky: #6eabdb;
+  --color-sky-tint: #e7f1fa;
+  --color-sage: #9fcb8c;
+  --color-sage-tint: #edf5e7;
+  --color-leaf: #3f7f30;
+  --color-night: #13293d;
+  --color-night-2: #1b3a52;
 
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-accent), ui-serif, Georgia, serif;
@@ -25,7 +27,6 @@
 
   --animate-rise: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   --animate-float: float 6s ease-in-out infinite;
-
 }
 @keyframes rise {
   from {
@@ -63,7 +64,7 @@ body {
 }
 
 ::selection {
-  background: var(--color-peri);
+  background: var(--color-sky);
   color: var(--color-ink);
 }
 
@@ -102,13 +103,13 @@ body {
   @apply inline-flex min-h-13 items-center justify-center gap-2 rounded-full px-6 text-[1.0625rem] font-semibold whitespace-nowrap transition-all duration-200 active:scale-[0.98];
 }
 @utility btn-primary {
-  @apply btn bg-brand text-white shadow-[0_8px_24px_-8px_rgb(53_80_212/0.6)] hover:bg-brand-hover hover:shadow-[0_12px_28px_-8px_rgb(53_80_212/0.7)];
+  @apply btn bg-brand text-white shadow-[0_8px_24px_-8px_rgb(43_118_176/0.6)] hover:bg-brand-hover hover:shadow-[0_12px_28px_-8px_rgb(43_118_176/0.7)];
 }
 @utility btn-ghost {
   @apply btn bg-white text-ink ring-1 ring-line hover:ring-ink/30;
 }
 @utility btn-light {
-  @apply btn bg-white text-night hover:bg-peri-tint;
+  @apply btn bg-white text-night hover:bg-sky-tint;
 }
 
 @utility chip {
@@ -135,6 +136,23 @@ body {
 /* Italic serif accent word inside headings. */
 @utility accent {
   @apply font-serif font-normal tracking-[-0.01em] italic;
+}
+
+/* The logo's blue → green gradient as text. Deep tones by default (readable on
+   light backgrounds); dark sections set --grad-from/--grad-to to the logo tints. */
+@utility grad-text {
+  background-image: linear-gradient(100deg, var(--grad-from, var(--color-brand)), var(--grad-to, var(--color-leaf)));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* Keep the ink colour for the forced-colors / print fallbacks. */
+  @media (forced-colors: active) {
+    background-image: none;
+    color: inherit;
+  }
+}
+@utility grad-bg {
+  background-image: linear-gradient(100deg, var(--color-sky), var(--color-sage));
 }
 
 @utility card {

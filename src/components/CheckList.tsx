@@ -7,7 +7,7 @@ export function CheckList({ items, columns = 1, tone = "light" }: { items: reado
         <li key={item} className="flex gap-3 text-lg leading-snug">
           <span
             className={`mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full ${
-              tone === "dark" ? "bg-peri/20 text-peri" : "bg-peri-tint text-brand"
+              tone === "dark" ? "bg-sky/20 text-sky" : "bg-sky-tint text-brand"
             }`}
           >
             <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden />

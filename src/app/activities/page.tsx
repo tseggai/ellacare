@@ -19,7 +19,7 @@ export default function ActivitiesPage() {
         eyebrow="Activities"
         title={
           <>
-            Days filled with <span className="accent text-brand">connection and joy.</span>
+            Days filled with <span className="accent grad-text">connection and joy.</span>
           </>
         }
         intro="Daily activities encourage residents to engage with staff and each other, and they’re designed to put a smile on everyone’s face."
@@ -31,7 +31,7 @@ export default function ActivitiesPage() {
         <div className="container-page">
           <p className="eyebrow">What we do together</p>
           <h2 className="h2 mt-3 max-w-2xl">
-            Something for everyone, <span className="accent text-brand">every day.</span>
+            Something for everyone, <span className="accent grad-text">every day.</span>
           </h2>
           <ul className="mt-12 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-5">
             {activities.map((a, i) => {

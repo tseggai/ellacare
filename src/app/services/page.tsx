@@ -44,7 +44,7 @@ export default function ServicesPage() {
         eyebrow="Care & services"
         title={
           <>
-            Quality care, <span className="accent text-brand">every hour</span> of every day.
+            Quality care, <span className="accent grad-text">every hour</span> of every day.
           </>
         }
         intro="We measure our care against our own rigorous standards and industry benchmarks, so every resident is treated with skill and kindness."
@@ -65,7 +65,7 @@ export default function ServicesPage() {
             </div>
           </div>
           <div id="medical" className="reveal scroll-mt-28 rounded-4xl bg-night p-8 text-white sm:p-10">
-            <span className="grid h-12 w-12 place-items-center rounded-2xl bg-white/10 text-peri">
+            <span className="grid h-12 w-12 place-items-center rounded-2xl bg-white/10 text-sky">
               <HeartPulse className="h-6 w-6" aria-hidden />
             </span>
             <h2 className="mt-6 text-3xl font-semibold tracking-tight">Medical support</h2>
@@ -80,12 +80,12 @@ export default function ServicesPage() {
       <section className="container-page py-20 sm:py-28">
         <p className="eyebrow">Comfort & connection</p>
         <h2 className="h2 mt-3 max-w-2xl">
-          The little things <span className="accent text-brand">that matter most.</span>
+          The little things <span className="accent grad-text">that matter most.</span>
         </h2>
         <ul className="mt-12 grid gap-4 sm:grid-cols-2">
           {extras.map(({ id, icon: Icon, title, body }) => (
             <li key={id} id={id} className="reveal card flex scroll-mt-28 gap-5 p-7">
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-peri-tint text-brand">
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-sky-tint text-brand">
                 <Icon className="h-6 w-6" aria-hidden />
               </span>
               <div>
@@ -96,8 +96,8 @@ export default function ServicesPage() {
           ))}
         </ul>
 
-        <div className="reveal mt-4 flex flex-col gap-5 rounded-4xl bg-apricot-tint p-8 ring-1 ring-apricot/30 sm:flex-row sm:items-center sm:p-10">
-          <MessagesSquare className="h-10 w-10 shrink-0 text-[#a35a12]" aria-hidden />
+        <div className="reveal mt-4 flex flex-col gap-5 rounded-4xl bg-sage-tint p-8 ring-1 ring-sage/40 sm:flex-row sm:items-center sm:p-10">
+          <MessagesSquare className="h-10 w-10 shrink-0 text-leaf" aria-hidden />
           <div>
             <h3 className="text-xl font-semibold tracking-tight">How we keep improving</h3>
             <p className="mt-1 text-lg leading-relaxed text-ink/75">
@@ -111,7 +111,7 @@ export default function ServicesPage() {
       <CtaBand
         title={
           <>
-            Questions about <span className="accent text-peri">care needs?</span>
+            Questions about <span className="accent grad-text">care needs?</span>
           </>
         }
         body="Every resident is different. Call us or book a visit and we’ll talk through exactly what your loved one needs."

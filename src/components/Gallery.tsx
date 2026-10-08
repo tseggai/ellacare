@@ -108,7 +108,7 @@ export function Gallery({ rooms }: { rooms: Room[] }) {
               <button type="button" onClick={() => step(-1)} className="grid h-14 w-14 place-items-center rounded-full bg-white/10 hover:bg-white/20" aria-label="Previous photo">
                 <ChevronLeft className="h-6 w-6" />
               </button>
-              <button type="button" onClick={() => step(1)} className="grid h-14 w-14 place-items-center rounded-full bg-white text-ink hover:bg-peri-tint" aria-label="Next photo">
+              <button type="button" onClick={() => step(1)} className="grid h-14 w-14 place-items-center rounded-full bg-white text-ink hover:bg-sky-tint" aria-label="Next photo">
                 <ChevronRight className="h-6 w-6" />
               </button>
             </div>

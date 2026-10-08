@@ -12,7 +12,7 @@ export default function PrivacyPage() {
         eyebrow="Privacy"
         title={
           <>
-            Your privacy <span className="accent text-brand">matters.</span>
+            Your privacy <span className="accent grad-text">matters.</span>
           </>
         }
         actions={false}

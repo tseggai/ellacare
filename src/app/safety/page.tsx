@@ -43,7 +43,7 @@ export default function SafetyPage() {
         eyebrow="Safety & policies"
         title={
           <>
-            Safe, respected and <span className="accent text-brand">well cared for.</span>
+            Safe, respected and <span className="accent grad-text">well cared for.</span>
           </>
         }
         intro="Clear policies and well-practiced procedures give residents and families peace of mind."
@@ -57,7 +57,7 @@ export default function SafetyPage() {
             >
               <span
                 className={`grid h-12 w-12 place-items-center rounded-2xl ${
-                  i === 0 ? "bg-white/10 text-peri" : "bg-peri-tint text-brand"
+                  i === 0 ? "bg-white/10 text-sky" : "bg-sky-tint text-brand"
                 }`}
               >
                 <Icon className="h-6 w-6" aria-hidden />
@@ -71,7 +71,7 @@ export default function SafetyPage() {
       <CtaBand
         title={
           <>
-            Questions about <span className="accent text-peri">safety?</span>
+            Questions about <span className="accent grad-text">safety?</span>
           </>
         }
         body="We welcome your questions and concerns. Call us any time."

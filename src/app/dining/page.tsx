@@ -23,7 +23,7 @@ export default function DiningPage() {
         eyebrow="Dining"
         title={
           <>
-            Fresh, home-cooked meals, <span className="accent text-brand">every day.</span>
+            Fresh, home-cooked meals, <span className="accent grad-text">every day.</span>
           </>
         }
         intro="At EllaCare we cook fresh meals daily, offering tasty and healthy options. Custom menus meet each resident’s individual preferences."
@@ -36,7 +36,7 @@ export default function DiningPage() {
           <ul className="grid gap-4 sm:grid-cols-2">
             {points.map(({ icon: Icon, title, body }) => (
               <li key={title} className="reveal rounded-4xl bg-paper p-7 ring-1 ring-line">
-                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-apricot-tint text-[#a35a12]">
+                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-sage-tint text-leaf">
                   <Icon className="h-6 w-6" aria-hidden />
                 </span>
                 <h2 className="mt-6 text-xl font-semibold tracking-tight">{title}</h2>
@@ -57,7 +57,7 @@ export default function DiningPage() {
       <CtaBand
         title={
           <>
-            Join us <span className="accent text-peri">for a visit.</span>
+            Join us <span className="accent grad-text">for a visit.</span>
           </>
         }
         body="Ask about dietary needs, or come by and see our kitchen for yourself."

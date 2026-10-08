@@ -36,7 +36,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 px-3 pt-3 sm:px-4">
       <div
-        className={`mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-full py-2 pr-2 pl-3 transition-all duration-300 sm:pl-4 ${
+        className={`mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-full py-1.5 pr-2 pl-3 transition-all duration-300 sm:pl-4 ${
           scrolled || open
             ? "bg-white/85 shadow-[0_10px_40px_-20px_rgb(15_23_41/0.35)] ring-1 ring-line backdrop-blur-xl"
             : "bg-transparent"
@@ -103,7 +103,7 @@ export function Header() {
                   <Link
                     href={item.href}
                     aria-current={pathname === item.href ? "page" : undefined}
-                    className="flex items-center justify-between rounded-2xl px-4 py-3.5 text-2xl font-semibold tracking-tight hover:bg-paper aria-[current=page]:bg-peri-tint aria-[current=page]:text-brand"
+                    className="flex items-center justify-between rounded-2xl px-4 py-3.5 text-2xl font-semibold tracking-tight hover:bg-paper aria-[current=page]:bg-sky-tint aria-[current=page]:text-brand"
                   >
                     {item.label}
                   </Link>

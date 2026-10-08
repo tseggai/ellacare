@@ -26,7 +26,7 @@ export default function ContactPage() {
         eyebrow="Contact & tours"
         title={
           <>
-            We’d love to <span className="accent text-brand">meet you.</span>
+            We’d love to <span className="accent grad-text">meet you.</span>
           </>
         }
         intro="Visitors are always welcome by appointment. Call us now, or book a tour below and we’ll confirm a time."
@@ -41,10 +41,10 @@ export default function ContactPage() {
                 href={href}
                 {...(external && { target: "_blank", rel: "noopener noreferrer" })}
                 className={`group flex h-full items-start gap-4 rounded-4xl p-6 transition-all hover:-translate-y-0.5 ${
-                  primary ? "bg-brand text-white shadow-[0_16px_40px_-16px_rgb(53_80_212/0.7)]" : "card hover:shadow-lg"
+                  primary ? "bg-brand text-white shadow-[0_16px_40px_-16px_rgb(43_118_176/0.7)]" : "card hover:shadow-lg"
                 }`}
               >
-                <span className={`grid h-12 w-12 shrink-0 place-items-center rounded-2xl ${primary ? "bg-white/15" : "bg-peri-tint text-brand"}`}>
+                <span className={`grid h-12 w-12 shrink-0 place-items-center rounded-2xl ${primary ? "bg-white/15" : "bg-sky-tint text-brand"}`}>
                   <Icon className="h-6 w-6" aria-hidden />
                 </span>
                 <span className="min-w-0 flex-1">

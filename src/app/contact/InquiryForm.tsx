@@ -96,7 +96,7 @@ export function InquiryForm() {
             ).map(([value, label, hint, Icon]) => (
               <label
                 key={value}
-                className="flex cursor-pointer gap-4 rounded-3xl bg-paper p-5 ring-1 ring-line transition-all hover:ring-ink/30 has-checked:bg-peri-tint has-checked:ring-2 has-checked:ring-brand has-focus-visible:ring-2 has-focus-visible:ring-brand"
+                className="flex cursor-pointer gap-4 rounded-3xl bg-paper p-5 ring-1 ring-line transition-all hover:ring-ink/30 has-checked:bg-sky-tint has-checked:ring-2 has-checked:ring-brand has-focus-visible:ring-2 has-focus-visible:ring-brand"
               >
                 <input type="radio" name="type" value={value} checked={type === value} onChange={() => setType(value)} className="sr-only" />
                 <Icon className="mt-0.5 h-6 w-6 shrink-0 text-brand" aria-hidden />

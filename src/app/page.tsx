@@ -24,7 +24,8 @@ export default function Home() {
       <FaqJsonLd />
 
       {/* ───────────── Hero ───────────── */}
-      <section className="container-page pt-6 pb-16 sm:pt-10 lg:pb-24">
+      <section className="container-page relative pt-6 pb-16 sm:pt-10 lg:pb-24">
+        <div aria-hidden className="grad-bg absolute top-0 -left-40 -z-10 h-[28rem] w-[28rem] rounded-full opacity-30 blur-3xl" />
         <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
           <div className="animate-rise">
             <span className="chip">
@@ -35,7 +36,7 @@ export default function Home() {
               {site.kind} · {site.address.city}, WA
             </span>
             <h1 className="display mt-6">
-              A real home, with <span className="accent text-brand">round-the-clock</span> care.
+              A real home, with <span className="accent grad-text">round-the-clock</span> care.
             </h1>
             <p className="lead mt-6 max-w-xl">
               {site.tagline}. Personal care, a nurse on call and three home-cooked meals a day, in a peaceful
@@ -74,7 +75,7 @@ export default function Home() {
             </div>
 
             <div className="absolute -bottom-6 -left-3 w-[min(19rem,80%)] animate-float rounded-3xl bg-white p-5 shadow-[0_24px_60px_-24px_rgb(15_23_41/0.45)] ring-1 ring-line sm:-left-8">
-              <Quote className="h-6 w-6 text-apricot" aria-hidden />
+              <Quote className="h-6 w-6 text-sage" aria-hidden />
               <p className="mt-2 font-serif text-xl leading-snug italic">“We now get to see her smile.”</p>
               <p className="mt-2 text-sm font-semibold text-muted">{testimonial.author}, family member</p>
             </div>
@@ -103,7 +104,7 @@ export default function Home() {
             eyebrow="At a glance"
             title={
               <>
-                Everything you need to know, <span className="accent text-brand">in one place.</span>
+                Everything you need to know, <span className="accent grad-text">in one place.</span>
               </>
             }
             intro="The questions families ask us first. Tap any card for the details."
@@ -124,7 +125,7 @@ export default function Home() {
                   >
                     <span
                       className={`grid h-12 w-12 place-items-center rounded-2xl ${
-                        featured ? "bg-white/10 text-peri" : "bg-white text-brand ring-1 ring-line"
+                        featured ? "bg-white/10 text-sky" : "bg-white text-brand ring-1 ring-line"
                       }`}
                     >
                       <Icon className="h-6 w-6" aria-hidden />
@@ -133,7 +134,7 @@ export default function Home() {
                     <p className={`mt-2 text-lg leading-relaxed ${featured ? "text-white/70" : "text-muted"}`}>{g.body}</p>
                     <ArrowUpRight
                       className={`absolute top-7 right-7 h-5 w-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ${
-                        featured ? "text-peri" : "text-muted"
+                        featured ? "text-sky" : "text-muted"
                       }`}
                       aria-hidden
                     />
@@ -152,7 +153,7 @@ export default function Home() {
             eyebrow="Take a look inside"
             title={
               <>
-                Comfortable, tasteful and <span className="accent text-brand">truly home-like.</span>
+                Comfortable, tasteful and <span className="accent grad-text">truly home-like.</span>
               </>
             }
             action={
@@ -188,7 +189,7 @@ export default function Home() {
           eyebrow="Daily life"
           title={
             <>
-              Days filled with care, good food <span className="accent text-brand">and good company.</span>
+              Days filled with care, good food <span className="accent grad-text">and good company.</span>
             </>
           }
         />
@@ -219,7 +220,7 @@ export default function Home() {
             />
             <div className="absolute inset-0 -z-10 bg-gradient-to-t from-night/90 via-night/30 to-transparent" />
             <div className="flex h-full flex-col justify-end">
-              <p className="text-sm font-bold tracking-[0.14em] text-apricot uppercase">Dining</p>
+              <p className="text-sm font-bold tracking-[0.14em] text-sage uppercase">Dining</p>
               <h3 className="mt-2 text-3xl font-semibold tracking-tight">3 home-cooked meals, every day</h3>
               <p className="mt-2 text-lg text-white/80">Plus snacks any time and menus tailored to each resident.</p>
             </div>
@@ -227,17 +228,17 @@ export default function Home() {
 
           <Link
             href="/activities"
-            className="reveal group rounded-4xl bg-apricot-tint p-8 ring-1 ring-apricot/30 lg:col-span-3"
+            className="reveal group rounded-4xl bg-sage-tint p-8 ring-1 ring-sage/40 lg:col-span-3"
           >
-            <p className="text-sm font-bold tracking-[0.14em] text-[#a35a12] uppercase">Activities</p>
+            <p className="text-sm font-bold tracking-[0.14em] text-leaf uppercase">Activities</p>
             <h3 className="mt-2 text-3xl font-semibold tracking-tight">Something for everyone</h3>
             <ul className="mt-5 flex flex-wrap gap-2">
               {activities.slice(0, 8).map((a) => (
-                <li key={a} className="rounded-full bg-white px-3.5 py-1.5 text-[0.95rem] font-semibold ring-1 ring-apricot/30">
+                <li key={a} className="rounded-full bg-white px-3.5 py-1.5 text-[0.95rem] font-semibold ring-1 ring-sage/40">
                   {a.split(":")[0]}
                 </li>
               ))}
-              <li className="inline-flex items-center gap-1 rounded-full px-3.5 py-1.5 text-[0.95rem] font-semibold text-[#a35a12] group-hover:gap-2">
+              <li className="inline-flex items-center gap-1 rounded-full px-3.5 py-1.5 text-[0.95rem] font-semibold text-leaf group-hover:gap-2">
                 and more <ArrowRight className="h-4 w-4" aria-hidden />
               </li>
             </ul>
@@ -246,10 +247,10 @@ export default function Home() {
       </section>
 
       {/* ───────────── Testimonial ───────────── */}
-      <section id="testimonials" className="bg-night py-20 text-white sm:py-28">
+      <section id="testimonials" className={`bg-night py-20 text-white sm:py-28 [--grad-from:var(--color-sky)] [--grad-to:var(--color-sage)]`}>
         <div className="container-page grid gap-12 lg:grid-cols-[1fr_1.6fr] lg:items-center">
           <div className="reveal">
-            <p className="text-sm font-bold tracking-[0.14em] text-peri uppercase">Those who know us love us</p>
+            <p className="text-sm font-bold tracking-[0.14em] text-sky uppercase">Those who know us love us</p>
             <p className="mt-6 font-serif text-5xl leading-[1.05] italic sm:text-6xl">
               “The improvement has been dramatic.”
             </p>
@@ -259,7 +260,7 @@ export default function Home() {
             </p>
           </div>
           <figure className="reveal relative rounded-4xl bg-white/5 p-8 ring-1 ring-white/10 sm:p-10">
-            <Quote className="h-10 w-10 text-peri" aria-hidden />
+            <Quote className="h-10 w-10 text-sky" aria-hidden />
             <blockquote className="mt-4 text-lg leading-relaxed text-white/85 sm:text-xl">{testimonial.quote}</blockquote>
           </figure>
         </div>
@@ -272,7 +273,7 @@ export default function Home() {
           eyebrow="Getting started"
           title={
             <>
-              Three simple steps to <span className="accent text-brand">peace of mind.</span>
+              Three simple steps to <span className="accent grad-text">peace of mind.</span>
             </>
           }
         />
@@ -298,7 +299,7 @@ export default function Home() {
           <div className="lg:sticky lg:top-28 lg:self-start">
             <p className="eyebrow">FAQ</p>
             <h2 className="h2 mt-3">
-              Questions? <span className="accent text-brand">We have answers.</span>
+              Questions? <span className="accent grad-text">We have answers.</span>
             </h2>
             <p className="lead mt-4">Can’t find what you’re looking for? Our team is happy to help.</p>
             <a href={`tel:${site.phones.main.tel}`} className="btn-ghost mt-8">

@@ -19,7 +19,7 @@ export default function AboutPage() {
         eyebrow="About"
         title={
           <>
-            Care that feels <span className="accent text-brand">like family.</span>
+            Care that feels <span className="accent grad-text">like family.</span>
           </>
         }
         intro="EllaCare is a residential care home designed to provide a comfortable and fulfilling lifestyle in a true home environment."
@@ -35,7 +35,7 @@ export default function AboutPage() {
           <div className="reveal">
             <p className="eyebrow">Our story</p>
             <h2 className="h2 mt-3">
-              A cheerful smile, <span className="accent text-brand">every single day.</span>
+              A cheerful smile, <span className="accent grad-text">every single day.</span>
             </h2>
             <div className="mt-8 space-y-5 text-lg leading-relaxed text-muted sm:text-xl">
               <p>
@@ -47,7 +47,7 @@ export default function AboutPage() {
                 residents to connect with our staff and with one another, designed to put a smile on everyone’s face.
               </p>
             </div>
-            <blockquote className="mt-10 border-l-4 border-apricot pl-6 font-serif text-3xl leading-snug italic">
+            <blockquote className="mt-10 border-l-4 border-sage pl-6 font-serif text-3xl leading-snug italic">
               Our commitment is all about one thing: enriching our residents’ quality of life.
             </blockquote>
           </div>
@@ -57,14 +57,14 @@ export default function AboutPage() {
       <section className="container-page py-20 sm:py-28">
         <p className="eyebrow">What makes us different</p>
         <h2 className="h2 mt-3 max-w-2xl">
-          Everything a home should be, <span className="accent text-brand">and more.</span>
+          Everything a home should be, <span className="accent grad-text">and more.</span>
         </h2>
         <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {highlights.map((h, i) => {
             const Icon = icons[i];
             return (
               <li key={h.title} className="reveal card p-7">
-                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-peri-tint text-brand">
+                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-sky-tint text-brand">
                   <Icon className="h-6 w-6" aria-hidden />
                 </span>
                 <h3 className="mt-6 text-xl font-semibold tracking-tight">{h.title}</h3>

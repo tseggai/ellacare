@@ -43,7 +43,7 @@ export function MobileActionBar() {
           tabIndex={show ? 0 : -1}
           className="inline-flex min-h-11 items-center gap-2 rounded-full px-4 font-semibold text-white hover:bg-white/10"
         >
-          <Phone className="h-4 w-4 text-peri" aria-hidden /> {site.phones.main.display}
+          <Phone className="h-4 w-4 text-sky" aria-hidden /> {site.phones.main.display}
         </a>
         <Link href="/contact" tabIndex={show ? 0 : -1} className="btn-light min-h-11 px-5">
           Book a tour

@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = { themeColor: "#f6f4ef" };
+export const viewport: Viewport = { themeColor: "#f7f8f6" };
 
 const localBusiness = {
   "@context": "https://schema.org",

@@ -16,7 +16,7 @@ export default function ResidencesPage() {
         eyebrow="Our home"
         title={
           <>
-            Take a look <span className="accent text-brand">around.</span>
+            Take a look <span className="accent grad-text">around.</span>
           </>
         }
         intro="A comfortable, tasteful home is at the heart of what we do. Explore our bedrooms, accessible bathrooms and shared living spaces."
@@ -27,7 +27,7 @@ export default function ResidencesPage() {
       <CtaBand
         title={
           <>
-            Photos are nice. <span className="accent text-peri">Visiting is better.</span>
+            Photos are nice. <span className="accent grad-text">Visiting is better.</span>
           </>
         }
       />
