@@ -114,7 +114,7 @@ export function InquiryForm({
         }
       }}
     >
-      <div className="flex items-center justify-between gap-4">
+      <div className={`flex items-center justify-between gap-4 ${bare ? "pr-12" : ""}`}>
         <p className="text-sm font-bold tracking-[0.14em] text-brand uppercase">
           Step {stepIndex + 1} of {steps.length}
         </p>
