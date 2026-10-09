@@ -5,12 +5,14 @@ import Link from "next/link";
 import { InquiryButton } from "@/components/inquiry/InquiryButton";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { nav, site } from "@/lib/site";
+import { nav } from "@/lib/site";
+import { useSite } from "./SiteProvider";
 import { Logo } from "./Logo";
 import { PhoneLink } from "@/components/PhoneLink";
 
 export function Header() {
   const pathname = usePathname();
+  const site = useSite();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 

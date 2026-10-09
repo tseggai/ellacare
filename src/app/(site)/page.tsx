@@ -8,7 +8,9 @@ import { CtaBand } from "@/components/CtaBand";
 import { Faq, FaqJsonLd } from "@/components/Faq";
 import { glanceIcons } from "@/components/Icons";
 import { SectionHeading } from "@/components/SectionHeading";
-import { activities, basicServices, glance, rooms, site, trustPoints } from "@/lib/site";
+import { activities, basicServices, glance, trustPoints } from "@/lib/site";
+import { getFaqs, getGallery, getHome, getSite } from "@/lib/content";
+import { AccentText } from "@/components/AccentText";
 import { getTestimonials, pullQuote } from "@/lib/testimonials";
 import { PhoneLink } from "@/components/PhoneLink";
 
@@ -22,14 +24,14 @@ const steps = [
 export const revalidate = 3600;
 
 export default async function Home() {
-  const stories = await getTestimonials();
+  const [stories, site, home, faqs, rooms] = await Promise.all([getTestimonials(), getSite(), getHome(), getFaqs(), getGallery()]);
   const featured = stories[0];
   const more = stories.slice(1, 3);
   const tour = rooms.filter((r) => r.title !== "Living room");
 
   return (
     <>
-      <FaqJsonLd />
+      <FaqJsonLd faqs={faqs} />
 
       {/* ───────────── Hero ───────────── */}
       <section className="container-page relative pt-6 pb-16 sm:pt-10 lg:pb-24">
@@ -44,12 +46,9 @@ export default async function Home() {
               {site.kind} · {site.address.city}, WA
             </span>
             <h1 className="display mt-6">
-              A real home, with <span className="accent grad-text">round-the-clock</span> care.
+              <AccentText text={home.heroTitle} />
             </h1>
-            <p className="lead mt-6 max-w-xl">
-              {site.tagline}. Personal care, a nurse on call and three home-cooked meals a day, in a peaceful
-              Lynnwood neighborhood.
-            </p>
+            <p className="lead mt-6 max-w-xl">{home.heroIntro}</p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <InquiryButton inquiry="tour" className="btn-primary">
@@ -342,7 +341,7 @@ export default async function Home() {
               <Phone className="h-4 w-4 text-brand" aria-hidden /> {site.phones.main.display}
             </PhoneLink>
           </div>
-          <Faq />
+          <Faq faqs={faqs} />
         </div>
       </section>
 

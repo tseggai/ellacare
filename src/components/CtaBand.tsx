@@ -1,9 +1,9 @@
 import { ArrowRight, MapPin, Phone } from "lucide-react";
 import { InquiryButton } from "@/components/inquiry/InquiryButton";
-import { site } from "@/lib/site";
+import { getSite } from "@/lib/content";
 import { PhoneLink } from "@/components/PhoneLink";
 
-export function CtaBand({
+export async function CtaBand({
   title = (
     <>
       Come see EllaCare <span className="accent grad-text">for yourself.</span>
@@ -14,6 +14,7 @@ export function CtaBand({
   title?: React.ReactNode;
   body?: string;
 }) {
+  const site = await getSite();
   return (
     <section className="container-page py-16 sm:py-24">
       <div className="reveal relative isolate overflow-hidden rounded-5xl bg-night [--grad-from:var(--color-sky)] [--grad-to:#a9dcff] px-6 py-14 text-white sm:px-14 sm:py-20">

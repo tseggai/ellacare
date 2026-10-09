@@ -2,7 +2,7 @@ import { ArrowUpRight, MapPin, Phone } from "lucide-react";
 import type { Metadata } from "next";
 import { InquiryForm } from "@/components/inquiry/InquiryForm";
 import { PageHero } from "@/components/PageHero";
-import { site } from "@/lib/site";
+import { getSite } from "@/lib/content";
 import { PhoneLink } from "@/components/PhoneLink";
 
 export const metadata: Metadata = {
@@ -10,7 +10,8 @@ export const metadata: Metadata = {
   description: "Book a tour of EllaCare adult family home in Lynnwood, WA, request a callback, or send us a question.",
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const site = await getSite();
   const { address, phones } = site;
   const query = encodeURIComponent(`${address.street}, ${address.city}, ${address.region} ${address.postalCode}`);
 

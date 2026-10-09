@@ -1,9 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Figtree, Instrument_Serif } from "next/font/google";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { InquiryProvider } from "@/components/inquiry/InquiryProvider";
-import { MobileActionBar } from "@/components/MobileActionBar";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -28,44 +24,12 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = { themeColor: "#f5f8fa" };
 
-const localBusiness = {
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  name: site.name,
-  legalName: site.legalName,
-  description: `${site.kind} in ${site.address.city}, WA. ${site.tagline}.`,
-  url: site.url,
-  telephone: site.phones.main.tel,
-  faxNumber: site.phones.fax.display,
-  image: `${site.url}/images/rooms/room-4271.jpg`,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: site.address.street,
-    addressLocality: site.address.city,
-    addressRegion: site.address.region,
-    postalCode: site.address.postalCode,
-    addressCountry: "US",
-  },
-};
-
+// Shared shell only: fonts and the document. The public site and the admin area
+// each add their own chrome in their route-group layouts.
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${body.variable} ${accent.variable}`}>
-      <body className="flex min-h-screen flex-col">
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:text-white"
-        >
-          Skip to content
-        </a>
-        <InquiryProvider>
-          <Header />
-          <main id="main">{children}</main>
-          <Footer />
-          <MobileActionBar />
-        </InquiryProvider>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusiness) }} />
-      </body>
+      <body className="flex min-h-screen flex-col">{children}</body>
     </html>
   );
 }

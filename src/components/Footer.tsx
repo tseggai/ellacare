@@ -1,11 +1,13 @@
 import { ArrowUpRight, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 import { InquiryButton } from "@/components/inquiry/InquiryButton";
-import { nav, site } from "@/lib/site";
+import { nav } from "@/lib/site";
+import { getSite } from "@/lib/content";
 import { Logo } from "./Logo";
 import { PhoneLink } from "@/components/PhoneLink";
 
-export function Footer() {
+export async function Footer() {
+  const site = await getSite();
   const { address, phones } = site;
   return (
     <footer className="mt-auto bg-night pb-24 text-white/75 sm:pb-0">

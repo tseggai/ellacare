@@ -53,9 +53,16 @@ The website checks for changes once an hour, so a new story appears within the h
 
 ### Staff admin area (`/admin`)
 
-Staff sign in at **/admin** with a 6-digit code sent by email and can:
+Staff sign in at **/admin** with a 6-digit code sent by email. The dashboard has its own left-hand navigation (no public header or footer) and lets the team:
 - see every inquiry (tour requests, callbacks, questions), change its status and keep notes;
-- add, edit, hide or delete testimonials; changes appear on the site immediately.
+- add, edit, hide or delete testimonials;
+- **Photo gallery** – upload photos of the home (JPG/PNG/WebP, up to 10 MB), set a title, category and order, hide or delete them; shown on *Our Home* and the home page;
+- **FAQs** – add, reorder, hide or delete the common questions on the home page;
+- **Site settings** – phone numbers, address, licence number, the home-page headline and intro, and an optional announcement banner shown at the top of every page.
+
+Changes appear on the site immediately. Content pages (services, activities, dining, etc.) are still edited in `src/lib/site.ts`.
+
+The gallery, FAQs and settings need the second migration: run `supabase/migrations/20261009120000_site_content.sql` in the SQL Editor (it also creates the public `gallery` storage bucket and seeds the current photos and FAQs). Until it runs, the site falls back to the built-in content.
 
 Setup:
 1. Add `SUPABASE_PUBLISHABLE_KEY` (Supabase → Project Settings → API Keys → *Publishable key*) to Vercel.

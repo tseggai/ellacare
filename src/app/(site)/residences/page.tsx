@@ -2,14 +2,15 @@ import type { Metadata } from "next";
 import { CtaBand } from "@/components/CtaBand";
 import { Gallery } from "@/components/Gallery";
 import { PageHero } from "@/components/PageHero";
-import { rooms } from "@/lib/site";
+import { getGallery } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Our Home",
   description: "Tour EllaCare’s bedrooms, accessible bathrooms, living room, dining room, kitchen and sun room.",
 };
 
-export default function ResidencesPage() {
+export default async function ResidencesPage() {
+  const rooms = await getGallery();
   return (
     <>
       <PageHero

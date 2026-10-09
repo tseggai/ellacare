@@ -12,8 +12,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useActionState, useState } from "react";
-import { submitInquiry, type InquiryState } from "@/app/contact/actions";
-import { site } from "@/lib/site";
+import { submitInquiry, type InquiryState } from "@/app/(site)/contact/actions";
+import { useSite } from "@/components/SiteProvider";
 import { PhoneLink } from "@/components/PhoneLink";
 
 export type InquiryType = "tour" | "question" | "callback";
@@ -53,6 +53,7 @@ export function InquiryForm({
   onDone?: () => void;
 }) {
   const [state, action, pending] = useActionState(submitInquiry, initial);
+  const site = useSite();
   const [type, setType] = useState<InquiryType>(initialType);
   const [stepIndex, setStepIndex] = useState(0);
 
