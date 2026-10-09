@@ -10,6 +10,7 @@ import { glanceIcons } from "@/components/Icons";
 import { SectionHeading } from "@/components/SectionHeading";
 import { activities, basicServices, glance, rooms, site, trustPoints } from "@/lib/site";
 import { getTestimonials, pullQuote } from "@/lib/testimonials";
+import { PhoneLink } from "@/components/PhoneLink";
 
 const steps = [
   { title: "Reach out", body: "Call, or request a tour or callback online. We’ll answer your questions and find a time that works." },
@@ -54,9 +55,9 @@ export default async function Home() {
               <InquiryButton inquiry="tour" className="btn-primary">
                 Book a tour <ArrowRight className="h-4 w-4" aria-hidden />
               </InquiryButton>
-              <a href={`tel:${site.phones.main.tel}`} className="btn-ghost">
+              <PhoneLink {...site.phones.main} className="btn-ghost">
                 <Phone className="h-4 w-4 text-brand" aria-hidden /> Call {site.phones.main.display}
-              </a>
+              </PhoneLink>
             </div>
 
             <div className="card mt-8 max-w-xl p-4 sm:p-5">
@@ -337,9 +338,9 @@ export default async function Home() {
               Questions? <span className="accent grad-text">We have answers.</span>
             </h2>
             <p className="lead mt-4">Can’t find what you’re looking for? Our team is happy to help.</p>
-            <a href={`tel:${site.phones.main.tel}`} className="btn-ghost mt-8">
+            <PhoneLink {...site.phones.main} className="btn-ghost mt-8">
               <Phone className="h-4 w-4 text-brand" aria-hidden /> {site.phones.main.display}
-            </a>
+            </PhoneLink>
           </div>
           <Faq />
         </div>

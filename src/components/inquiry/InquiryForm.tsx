@@ -14,6 +14,7 @@ import {
 import { useActionState, useState } from "react";
 import { submitInquiry, type InquiryState } from "@/app/contact/actions";
 import { site } from "@/lib/site";
+import { PhoneLink } from "@/components/PhoneLink";
 
 export type InquiryType = "tour" | "question" | "callback";
 
@@ -78,9 +79,9 @@ export function InquiryForm({
             ? "We’ll call you soon, usually the same day."
             : `We received your ${type === "tour" ? "tour request" : "question"} and will get back to you within one business day.`}{" "}
           Need us sooner? Call{" "}
-          <a href={`tel:${site.phones.main.tel}`} className="font-semibold text-brand underline underline-offset-4">
+          <PhoneLink {...site.phones.main} className="font-semibold text-brand underline underline-offset-4">
             {site.phones.main.display}
-          </a>
+          </PhoneLink>
           .
         </p>
         {onDone && (
@@ -159,9 +160,9 @@ export function InquiryForm({
           </div>
           <p className="mt-4 flex flex-wrap items-center gap-x-2 text-muted">
             Prefer to talk right now?
-            <a href={`tel:${site.phones.main.tel}`} className="inline-flex items-center gap-1.5 font-semibold text-brand hover:underline">
+            <PhoneLink {...site.phones.main} className="inline-flex items-center gap-1.5 font-semibold text-brand hover:underline">
               <Phone className="h-4 w-4" aria-hidden /> Call {site.phones.main.display}
-            </a>
+            </PhoneLink>
           </p>
         </fieldset>
 

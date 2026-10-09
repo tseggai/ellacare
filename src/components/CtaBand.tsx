@@ -1,6 +1,7 @@
 import { ArrowRight, MapPin, Phone } from "lucide-react";
 import { InquiryButton } from "@/components/inquiry/InquiryButton";
 import { site } from "@/lib/site";
+import { PhoneLink } from "@/components/PhoneLink";
 
 export function CtaBand({
   title = (
@@ -29,17 +30,17 @@ export function CtaBand({
               <InquiryButton inquiry="tour" className="btn-light">
                 Book a tour <ArrowRight className="h-4 w-4" aria-hidden />
               </InquiryButton>
-              <a href={`tel:${site.phones.main.tel}`} className="btn bg-white/10 text-white ring-1 ring-white/25 hover:bg-white/15">
+              <PhoneLink {...site.phones.main} className="btn bg-white/10 text-white ring-1 ring-white/25 hover:bg-white/15">
                 <Phone className="h-4 w-4" aria-hidden /> {site.phones.main.display}
-              </a>
+              </PhoneLink>
             </div>
           </div>
           <ul className="grid gap-3 text-white/80">
             <li className="rounded-3xl bg-white/5 p-5 ring-1 ring-white/10">
               <p className="text-sm font-semibold text-sky">Emergency line</p>
-              <a href={`tel:${site.phones.emergency.tel}`} className="mt-1 block text-2xl font-semibold text-white">
+              <PhoneLink {...site.phones.emergency} className="mt-1 block text-2xl font-semibold text-white">
                 {site.phones.emergency.display}
-              </a>
+              </PhoneLink>
             </li>
             <li className="rounded-3xl bg-white/5 p-5 ring-1 ring-white/10">
               <p className="text-sm font-semibold text-sky">Visit us</p>

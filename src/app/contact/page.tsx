@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { InquiryForm } from "@/components/inquiry/InquiryForm";
 import { PageHero } from "@/components/PageHero";
 import { site } from "@/lib/site";
+import { PhoneLink } from "@/components/PhoneLink";
 
 export const metadata: Metadata = {
   title: "Contact & Tours",
@@ -35,13 +36,13 @@ export default function ContactPage() {
             <ul className="mt-5 divide-y divide-line">
               {[phones.main, phones.cell, phones.emergency].map((p) => (
                 <li key={p.label}>
-                  <a href={`tel:${p.tel}`} className="group flex items-center justify-between gap-4 py-3.5">
+                  <PhoneLink {...p} className="group flex items-center justify-between gap-4 py-3.5">
                     <span className="flex items-center gap-3 text-muted">
                       <Phone className="h-4 w-4 text-brand" aria-hidden />
                       {p.label}
                     </span>
                     <span className="text-lg font-semibold text-ink group-hover:text-brand">{p.display}</span>
-                  </a>
+                  </PhoneLink>
                 </li>
               ))}
               <li className="flex items-center justify-between gap-4 py-3.5">
