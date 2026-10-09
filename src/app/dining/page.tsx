@@ -36,7 +36,7 @@ export default function DiningPage() {
           <ul className="grid gap-4 sm:grid-cols-2">
             {points.map(({ icon: Icon, title, body }) => (
               <li key={title} className="reveal rounded-4xl bg-paper p-7 ring-1 ring-line">
-                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-sage-tint text-leaf">
+                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-aqua-tint text-brand">
                   <Icon className="h-6 w-6" aria-hidden />
                 </span>
                 <h2 className="mt-6 text-xl font-semibold tracking-tight">{title}</h2>
