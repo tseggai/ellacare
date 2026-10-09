@@ -22,11 +22,11 @@ export const metadata: Metadata = {
     type: "website",
     siteName: site.name,
     locale: "en_US",
-    images: [{ url: "/images/rooms/room-4271.jpg", width: 1024, height: 680, alt: "EllaCare living room" }],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "EllaCare, Adult Family Home" }],
   },
 };
 
-export const viewport: Viewport = { themeColor: "#f7f8f6" };
+export const viewport: Viewport = { themeColor: "#f5f8fa" };
 
 const localBusiness = {
   "@context": "https://schema.org",

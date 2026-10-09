@@ -96,8 +96,8 @@ export default function ServicesPage() {
           ))}
         </ul>
 
-        <div className="reveal mt-4 flex flex-col gap-5 rounded-4xl bg-sage-tint p-8 ring-1 ring-sage/40 sm:flex-row sm:items-center sm:p-10">
-          <MessagesSquare className="h-10 w-10 shrink-0 text-leaf" aria-hidden />
+        <div className="reveal mt-4 flex flex-col gap-5 rounded-4xl bg-aqua-tint p-8 ring-1 ring-aqua/40 sm:flex-row sm:items-center sm:p-10">
+          <MessagesSquare className="h-10 w-10 shrink-0 text-brand" aria-hidden />
           <div>
             <h3 className="text-xl font-semibold tracking-tight">How we keep improving</h3>
             <p className="mt-1 text-lg leading-relaxed text-ink/75">

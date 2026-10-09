@@ -83,7 +83,7 @@ export default async function Home() {
             </div>
 
             <div className="absolute -bottom-6 -left-3 w-[min(19rem,80%)] animate-float rounded-3xl bg-white p-5 shadow-[0_24px_60px_-24px_rgb(15_23_41/0.45)] ring-1 ring-line sm:-left-8">
-              <Quote className="h-6 w-6 text-sage" aria-hidden />
+              <Quote className="h-6 w-6 text-aqua" aria-hidden />
               <p className="mt-2 font-serif text-xl leading-snug italic">“{pullQuote(featured)}”</p>
               <p className="mt-2 text-sm font-semibold text-muted">
                 {featured.author}{featured.relation ? `, ${featured.relation.toLowerCase()}` : ""}
@@ -230,7 +230,7 @@ export default async function Home() {
             />
             <div className="absolute inset-0 -z-10 bg-gradient-to-t from-night/90 via-night/30 to-transparent" />
             <div className="flex h-full flex-col justify-end">
-              <p className="text-sm font-bold tracking-[0.14em] text-sage uppercase">Dining</p>
+              <p className="text-sm font-bold tracking-[0.14em] text-aqua uppercase">Dining</p>
               <h3 className="mt-2 text-3xl font-semibold tracking-tight">3 home-cooked meals, every day</h3>
               <p className="mt-2 text-lg text-white/80">Plus snacks any time and menus tailored to each resident.</p>
             </div>
@@ -238,17 +238,17 @@ export default async function Home() {
 
           <Link
             href="/activities"
-            className="reveal group rounded-4xl bg-sage-tint p-8 ring-1 ring-sage/40 lg:col-span-3"
+            className="reveal group rounded-4xl bg-aqua-tint p-8 ring-1 ring-aqua/40 lg:col-span-3"
           >
-            <p className="text-sm font-bold tracking-[0.14em] text-leaf uppercase">Activities</p>
+            <p className="text-sm font-bold tracking-[0.14em] text-brand uppercase">Activities</p>
             <h3 className="mt-2 text-3xl font-semibold tracking-tight">Something for everyone</h3>
             <ul className="mt-5 flex flex-wrap gap-2">
               {activities.slice(0, 8).map((a) => (
-                <li key={a} className="rounded-full bg-white px-3.5 py-1.5 text-[0.95rem] font-semibold ring-1 ring-sage/40">
+                <li key={a} className="rounded-full bg-white px-3.5 py-1.5 text-[0.95rem] font-semibold ring-1 ring-aqua/40">
                   {a.split(":")[0]}
                 </li>
               ))}
-              <li className="inline-flex items-center gap-1 rounded-full px-3.5 py-1.5 text-[0.95rem] font-semibold text-leaf group-hover:gap-2">
+              <li className="inline-flex items-center gap-1 rounded-full px-3.5 py-1.5 text-[0.95rem] font-semibold text-brand group-hover:gap-2">
                 and more <ArrowRight className="h-4 w-4" aria-hidden />
               </li>
             </ul>
@@ -259,7 +259,7 @@ export default async function Home() {
       {/* ───────────── Testimonials ───────────── */}
       <section
         id="testimonials"
-        className="bg-night py-20 text-white sm:py-28 [--grad-from:var(--color-sky)] [--grad-to:var(--color-sage)]"
+        className="bg-night py-20 text-white sm:py-28 [--grad-from:var(--color-sky)] [--grad-to:#a9dcff]"
       >
         <div className="container-page">
           <div className="grid gap-12 lg:grid-cols-[1fr_1.6fr] lg:items-center">

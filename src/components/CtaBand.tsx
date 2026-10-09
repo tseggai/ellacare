@@ -16,12 +16,12 @@ export function CtaBand({
 }) {
   return (
     <section className="container-page py-16 sm:py-24">
-      <div className="reveal relative isolate overflow-hidden rounded-5xl bg-night [--grad-from:var(--color-sky)] [--grad-to:var(--color-sage)] px-6 py-14 text-white sm:px-14 sm:py-20">
+      <div className="reveal relative isolate overflow-hidden rounded-5xl bg-night [--grad-from:var(--color-sky)] [--grad-to:#a9dcff] px-6 py-14 text-white sm:px-14 sm:py-20">
         <div
           aria-hidden
           className="absolute -top-32 -right-24 -z-10 h-96 w-96 rounded-full bg-sky/50 blur-3xl"
         />
-        <div aria-hidden className="absolute -bottom-40 -left-20 -z-10 h-80 w-80 rounded-full bg-sage/30 blur-3xl" />
+        <div aria-hidden className="absolute -bottom-40 -left-20 -z-10 h-80 w-80 rounded-full bg-aqua/30 blur-3xl" />
         <div className="grid items-end gap-12 lg:grid-cols-[1.4fr_1fr]">
           <div>
             <h2 className="h2 max-w-2xl sm:text-6xl">{title}</h2>

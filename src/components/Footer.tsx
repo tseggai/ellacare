@@ -11,7 +11,7 @@ export function Footer() {
     <footer className="mt-auto bg-night pb-24 text-white/75 sm:pb-0">
       <div className="container-page grid gap-12 py-16 md:grid-cols-12">
         <div className="md:col-span-5">
-          <Logo size="lg" />
+          <Logo tone="light" variant="full" className="w-[12rem]" />
           <p className="mt-5 max-w-sm text-lg leading-relaxed">
             {site.kind} in {address.city}, Washington. {site.tagline}.
           </p>
