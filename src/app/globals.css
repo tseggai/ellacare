@@ -1,23 +1,24 @@
 @import "tailwindcss";
 
-/* Palette from the EllaCare logo: a sky-blue → sage gradient. The logo tints are
-   too light for text on white, so `brand` and `leaf` are deeper versions for
-   buttons and copy; `sky` and `sage` are the logo colours themselves. */
+/* Palette from the official EllaCare logo: a cyan → deep-blue gradient. `sky` is
+   the logo cyan (too light for text on white), `brand`/`navy` are the blues used
+   for buttons and copy, `leaf` is reserved for success states. */
 @theme {
-  --color-paper: #f7f8f6;
-  --color-paper-2: #eef2ee;
-  --color-ink: #16232f;
-  --color-muted: #5b6470;
-  --color-line: #e0e6e4;
-  --color-brand: #2b76b0;
-  --color-brand-hover: #24659a;
-  --color-sky: #6eabdb;
-  --color-sky-tint: #e7f1fa;
-  --color-sage: #9fcb8c;
-  --color-sage-tint: #edf5e7;
-  --color-leaf: #3f7f30;
-  --color-night: #13293d;
-  --color-night-2: #1b3a52;
+  --color-paper: #f5f8fa;
+  --color-paper-2: #eaf1f6;
+  --color-ink: #121c2b;
+  --color-muted: #56657a;
+  --color-line: #dde6ec;
+  --color-brand: #1e6fb5;
+  --color-brand-hover: #185c99;
+  --color-sky: #56d5e1;
+  --color-sky-tint: #e6f8fa;
+  --color-aqua: #2aa6d4;
+  --color-aqua-tint: #e4f3fa;
+  --color-navy: #0b4a9e;
+  --color-leaf: #2f8f4e;
+  --color-night: #0d2342;
+  --color-night-2: #143466;
 
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-accent), ui-serif, Georgia, serif;
@@ -137,7 +138,7 @@ body {
 /* The logo's blue → green gradient as text. Deep tones by default (readable on
    light backgrounds); dark sections set --grad-from/--grad-to to the logo tints. */
 @utility grad-text {
-  background-image: linear-gradient(100deg, var(--grad-from, var(--color-brand)), var(--grad-to, var(--color-leaf)));
+  background-image: linear-gradient(100deg, var(--grad-from, var(--color-brand)), var(--grad-to, var(--color-navy)));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -148,7 +149,7 @@ body {
   }
 }
 @utility grad-bg {
-  background-image: linear-gradient(100deg, var(--color-sky), var(--color-sage));
+  background-image: linear-gradient(100deg, var(--color-sky), var(--color-navy));
 }
 
 @utility card {

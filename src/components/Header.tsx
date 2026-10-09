@@ -44,7 +44,7 @@ export function Header() {
         }`}
       >
         <Link href="/" aria-label={`${site.name} home`} className="shrink-0">
-          <Logo />
+          <Logo className="w-[8.75rem]" />
         </Link>
 
         <nav aria-label="Main" className="hidden lg:block">

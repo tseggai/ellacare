@@ -47,7 +47,7 @@ export default function AboutPage() {
                 residents to connect with our staff and with one another, designed to put a smile on everyone’s face.
               </p>
             </div>
-            <blockquote className="mt-10 border-l-4 border-sage pl-6 font-serif text-3xl leading-snug italic">
+            <blockquote className="mt-10 border-l-4 border-aqua pl-6 font-serif text-3xl leading-snug italic">
               Our commitment is all about one thing: enriching our residents’ quality of life.
             </blockquote>
           </div>

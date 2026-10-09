@@ -34,11 +34,11 @@ export default async function TestimonialsPage() {
               key={t.id}
               className={`reveal rounded-4xl p-8 sm:p-10 ${
                 i === 0
-                  ? "bg-night text-white [--grad-from:var(--color-sky)] [--grad-to:var(--color-sage)] lg:col-span-2"
+                  ? "bg-night text-white [--grad-from:var(--color-sky)] [--grad-to:#a9dcff] lg:col-span-2"
                   : "card"
               }`}
             >
-              <Quote className={`h-8 w-8 ${i === 0 ? "text-sky" : "text-sage"}`} aria-hidden />
+              <Quote className={`h-8 w-8 ${i === 0 ? "text-sky" : "text-aqua"}`} aria-hidden />
               {t.highlight && (
                 <p className={`mt-4 font-serif text-3xl leading-tight italic sm:text-4xl ${i === 0 ? "grad-text" : "text-brand"}`}>
                   “{t.highlight}”
