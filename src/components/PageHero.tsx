@@ -2,10 +2,10 @@ import { ChevronRight, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { InquiryButton } from "@/components/inquiry/InquiryButton";
-import { site } from "@/lib/site";
+import { getSite } from "@/lib/content";
 import { PhoneLink } from "@/components/PhoneLink";
 
-export function PageHero({
+export async function PageHero({
   eyebrow,
   title,
   intro,
@@ -20,6 +20,7 @@ export function PageHero({
   imageAlt?: string;
   actions?: boolean;
 }) {
+  const site = await getSite();
   return (
     <section className="container-page pt-8 pb-12 sm:pt-12 sm:pb-16">
       <nav aria-label="Breadcrumb" className="mb-8 flex items-center gap-1.5 text-sm font-semibold text-muted">

@@ -2,7 +2,7 @@
 
 import { CheckCircle2, Loader2, Phone } from "lucide-react";
 import { useActionState } from "react";
-import { submitInquiry, type InquiryState } from "@/app/contact/actions";
+import { submitInquiry, type InquiryState } from "@/app/(site)/contact/actions";
 
 const initial: InquiryState = { status: "idle" };
 

@@ -5,13 +5,14 @@ import Link from "next/link";
 import { InquiryButton } from "@/components/inquiry/InquiryButton";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { site } from "@/lib/site";
+import { useSite } from "./SiteProvider";
 import { PhoneLink } from "@/components/PhoneLink";
 
 // Persistent call / tour actions: a bottom bar on phones, a floating pill on desktop
 // that appears once the visitor scrolls past the first screen.
 export function MobileActionBar() {
   const pathname = usePathname();
+  const site = useSite();
   const [show, setShow] = useState(false);
 
   useEffect(() => {
