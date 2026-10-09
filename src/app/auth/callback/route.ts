@@ -1,22 +1,33 @@
+import type { EmailOtpType } from "@supabase/supabase-js";
 import { NextResponse, type NextRequest } from "next/server";
 import { createAuthClient, isAdminEmail } from "@/lib/admin";
 
-// Magic-link landing: exchanges the code in the email link for a session cookie.
+// Landing page for sign-in links. Supports two link styles:
+//  - token_hash links (from the custom email template): work from any device
+//  - PKCE `code` links (Supabase's default template): only in the requesting browser
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
-  const code = searchParams.get("code");
   const next = searchParams.get("next") ?? "/admin";
   const safeNext = next.startsWith("/") && !next.startsWith("//") ? next : "/admin";
+  const fail = (reason: string) => NextResponse.redirect(`${origin}/admin/login?error=${reason}`);
 
   const supabase = await createAuthClient();
-  if (!code || !supabase) return NextResponse.redirect(`${origin}/admin/login?error=link`);
+  if (!supabase) return fail("link");
 
-  const { data, error } = await supabase.auth.exchangeCodeForSession(code);
-  if (error) return NextResponse.redirect(`${origin}/admin/login?error=link`);
+  const tokenHash = searchParams.get("token_hash");
+  const type = (searchParams.get("type") ?? "email") as EmailOtpType;
+  const code = searchParams.get("code");
 
-  if (!isAdminEmail(data.user?.email)) {
+  const result = tokenHash
+    ? await supabase.auth.verifyOtp({ token_hash: tokenHash, type })
+    : code
+      ? await supabase.auth.exchangeCodeForSession(code)
+      : null;
+  if (!result || result.error || !result.data.user) return fail("link");
+
+  if (!isAdminEmail(result.data.user.email)) {
     await supabase.auth.signOut();
-    return NextResponse.redirect(`${origin}/admin/login?error=denied`);
+    return fail("denied");
   }
   return NextResponse.redirect(`${origin}${safeNext}`);
 }
