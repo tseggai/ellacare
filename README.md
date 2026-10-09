@@ -53,14 +53,24 @@ The website checks for changes once an hour, so a new story appears within the h
 
 ### Staff admin area (`/admin`)
 
-Staff sign in at **/admin** with a one-time email link and can:
+Staff sign in at **/admin** with a 6-digit code sent by email and can:
 - see every inquiry (tour requests, callbacks, questions), change its status and keep notes;
 - add, edit, hide or delete testimonials; changes appear on the site immediately.
 
 Setup:
 1. Add `SUPABASE_PUBLISHABLE_KEY` (Supabase → Project Settings → API Keys → *Publishable key*) to Vercel.
 2. In Supabase → **Authentication → URL Configuration**, set **Site URL** to the site's address and add `https://<your-domain>/auth/callback` to **Redirect URLs** (for both the Vercel address and ellacare.com).
-3. Allowed sign-in addresses are listed in `src/lib/admin.ts`; override without a code change by setting `ADMIN_EMAILS=a@example.com,b@example.com` in Vercel.
+3. In Supabase → **Authentication → Emails → Magic Link**, replace the template body with one that includes the code (`{{ .Token }}`) and a device-independent link:
+
+   ```html
+   <h2>Your EllaCare sign-in code</h2>
+   <p style="font-size:28px;letter-spacing:6px"><strong>{{ .Token }}</strong></p>
+   <p>Enter this code on the sign-in page. It expires in one hour.</p>
+   <p>Or, on this device, <a href="{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=email&next=/admin">sign in with one tap</a>.</p>
+   ```
+
+   Without this change Supabase's default email contains only a link, and that link works only in the browser that requested it.
+4. Allowed sign-in addresses are listed in `src/lib/admin.ts`; override without a code change by setting `ADMIN_EMAILS=a@example.com,b@example.com` in Vercel.
 
 Supabase's built-in email sender is rate-limited to a few sign-in links per hour, which is fine for a small team. If that ever gets in the way, point Supabase Auth at a custom SMTP provider (e.g. Resend) under Authentication → Emails.
 

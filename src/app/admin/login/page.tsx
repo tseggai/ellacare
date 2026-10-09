@@ -13,7 +13,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
     error === "denied"
       ? "That email address isn’t on the staff list."
       : error === "link"
-        ? "That sign-in link has expired or was already used. Request a new one."
+        ? "That sign-in link didn’t work (links only open on the device that requested them). Request a new code below and type it in instead."
         : null;
 
   return (
@@ -21,7 +21,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
       <div className="card w-full max-w-md p-8 sm:p-10">
         <Logo className="w-36" />
         <h1 className="mt-8 text-3xl font-semibold tracking-tight">Staff sign-in</h1>
-        <p className="mt-2 text-muted">Enter your work email and we’ll send you a one-time sign-in link.</p>
+        <p className="mt-2 text-muted">Enter your work email and we’ll send you a 6-digit sign-in code.</p>
         {notice && (
           <p role="alert" className="mt-5 rounded-2xl bg-red-50 p-4 font-medium text-red-800">
             {notice}

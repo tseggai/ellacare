@@ -38,14 +38,14 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 px-3 pt-3 sm:px-4">
       <div
-        className={`mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-full py-1.5 pr-2 pl-3 transition-all duration-300 sm:pl-4 ${
+        className={`mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-full pr-2 pl-3 transition-all duration-300 sm:pl-4 ${
           scrolled || open
-            ? "bg-white/85 shadow-[0_10px_40px_-20px_rgb(15_23_41/0.35)] ring-1 ring-line backdrop-blur-xl"
-            : "bg-transparent"
+            ? "bg-white/85 py-1 shadow-[0_10px_40px_-20px_rgb(15_23_41/0.35)] ring-1 ring-line backdrop-blur-xl"
+            : "bg-transparent py-1.5"
         }`}
       >
         <Link href="/" aria-label={`${site.name} home`} className="shrink-0">
-          <Logo className="w-[8.75rem]" />
+          <Logo className={`transition-[width] duration-300 ${scrolled ? "w-20 sm:w-24" : "w-24 sm:w-[8.25rem]"}`} />
         </Link>
 
         <nav aria-label="Main" className="hidden lg:block">
