@@ -51,6 +51,19 @@ Open **Table Editor → testimonials** and click **Insert row**:
 
 The website checks for changes once an hour, so a new story appears within the hour. To see it sooner, redeploy in Vercel.
 
+### Staff admin area (`/admin`)
+
+Staff sign in at **/admin** with a one-time email link and can:
+- see every inquiry (tour requests, callbacks, questions), change its status and keep notes;
+- add, edit, hide or delete testimonials; changes appear on the site immediately.
+
+Setup:
+1. Add `SUPABASE_PUBLISHABLE_KEY` (Supabase → Project Settings → API Keys → *Publishable key*) to Vercel.
+2. In Supabase → **Authentication → URL Configuration**, set **Site URL** to the site's address and add `https://<your-domain>/auth/callback` to **Redirect URLs** (for both the Vercel address and ellacare.com).
+3. Allowed sign-in addresses are listed in `src/lib/admin.ts`; override without a code change by setting `ADMIN_EMAILS=a@example.com,b@example.com` in Vercel.
+
+Supabase's built-in email sender is rate-limited to a few sign-in links per hour, which is fine for a small team. If that ever gets in the way, point Supabase Auth at a custom SMTP provider (e.g. Resend) under Authentication → Emails.
+
 ### 2. Vercel (about 5 min)
 
 1. At [vercel.com/new](https://vercel.com/new), import the `tseggai/ellacare` GitHub repo. Vercel detects Next.js automatically; keep the defaults.
@@ -60,6 +73,7 @@ The website checks for changes once an hour, so a new story appears within the h
    | --- | --- |
    | `SUPABASE_URL` | from step 1 |
    | `SUPABASE_SECRET_KEY` | from step 1 |
+   | `SUPABASE_PUBLISHABLE_KEY` | from step 1; needed for staff sign-in to `/admin` |
    | `NEXT_PUBLIC_SITE_URL` | `https://ellacare.com` |
    | `RESEND_API_KEY` | *optional*: emails you each new inquiry |
    | `INQUIRY_NOTIFY_EMAIL` | *optional*: where to send them (comma-separated) |
