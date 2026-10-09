@@ -3,6 +3,7 @@ import Link from "next/link";
 import { InquiryButton } from "@/components/inquiry/InquiryButton";
 import { nav, site } from "@/lib/site";
 import { Logo } from "./Logo";
+import { PhoneLink } from "@/components/PhoneLink";
 
 export function Footer() {
   const { address, phones } = site;
@@ -25,11 +26,11 @@ export function Footer() {
           <ul className="mt-5 space-y-3">
             {[phones.main, phones.cell, phones.emergency].map((p) => (
               <li key={p.label}>
-                <a href={`tel:${p.tel}`} className="group flex items-center gap-3 hover:text-white">
+                <PhoneLink {...p} className="group flex items-center gap-3 hover:text-white">
                   <Phone className="h-4 w-4 text-sky" aria-hidden />
                   <span className="w-24 text-white/55">{p.label}</span>
                   <span className="font-semibold text-white">{p.display}</span>
-                </a>
+                </PhoneLink>
               </li>
             ))}
             <li className="flex items-center gap-3">

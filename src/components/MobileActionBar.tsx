@@ -6,6 +6,7 @@ import { InquiryButton } from "@/components/inquiry/InquiryButton";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { site } from "@/lib/site";
+import { PhoneLink } from "@/components/PhoneLink";
 
 // Persistent call / tour actions: a bottom bar on phones, a floating pill on desktop
 // that appears once the visitor scrolls past the first screen.
@@ -25,9 +26,9 @@ export function MobileActionBar() {
   return (
     <>
       <div className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 gap-2 border-t border-line bg-white/90 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-xl sm:hidden">
-        <a href={`tel:${site.phones.main.tel}`} className="btn-ghost min-h-12">
+        <PhoneLink {...site.phones.main} className="btn-ghost min-h-12">
           <Phone className="h-4 w-4" aria-hidden /> Call
-        </a>
+        </PhoneLink>
         <Link href="/contact" className="btn-primary min-h-12">
           <CalendarCheck className="h-4 w-4" aria-hidden /> Book a tour
         </Link>
@@ -39,13 +40,12 @@ export function MobileActionBar() {
         }`}
         aria-hidden={!show}
       >
-        <a
-          href={`tel:${site.phones.main.tel}`}
+        <PhoneLink {...site.phones.main}
           tabIndex={show ? 0 : -1}
           className="inline-flex min-h-11 items-center gap-2 rounded-full px-4 font-semibold text-white hover:bg-white/10"
         >
           <Phone className="h-4 w-4 text-sky" aria-hidden /> {site.phones.main.display}
-        </a>
+        </PhoneLink>
         <InquiryButton inquiry="tour" tabIndex={show ? 0 : -1} className="btn-light min-h-11 px-5">
           Book a tour
         </InquiryButton>

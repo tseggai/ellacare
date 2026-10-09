@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { InquiryButton } from "@/components/inquiry/InquiryButton";
 import { site } from "@/lib/site";
+import { PhoneLink } from "@/components/PhoneLink";
 
 export function PageHero({
   eyebrow,
@@ -37,9 +38,9 @@ export function PageHero({
               <InquiryButton inquiry="tour" className="btn-primary">
                 Book a tour
               </InquiryButton>
-              <a href={`tel:${site.phones.main.tel}`} className="btn-ghost">
+              <PhoneLink {...site.phones.main} className="btn-ghost">
                 <Phone className="h-4 w-4" aria-hidden /> {site.phones.main.display}
-              </a>
+              </PhoneLink>
             </div>
           )}
         </div>

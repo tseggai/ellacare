@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { nav, site } from "@/lib/site";
 import { Logo } from "./Logo";
+import { PhoneLink } from "@/components/PhoneLink";
 
 export function Header() {
   const pathname = usePathname();
@@ -69,13 +70,12 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-1.5">
-          <a
-            href={`tel:${site.phones.main.tel}`}
+          <PhoneLink {...site.phones.main}
             className="hidden items-center gap-2 rounded-full px-3 py-2 font-semibold text-ink hover:bg-ink/5 xl:inline-flex"
           >
             <Phone className="h-4 w-4 text-brand" aria-hidden />
             {site.phones.main.display}
-          </a>
+          </PhoneLink>
           <InquiryButton inquiry="tour" className="btn-primary hidden min-h-11 px-5 sm:inline-flex">
             Book a tour
           </InquiryButton>
@@ -116,9 +116,9 @@ export function Header() {
             <InquiryButton inquiry="tour" className="btn-primary" onClick={() => setOpen(false)}>
               Book a tour
             </InquiryButton>
-            <a href={`tel:${site.phones.main.tel}`} className="btn-ghost">
+            <PhoneLink {...site.phones.main} className="btn-ghost">
               <Phone className="h-4 w-4" aria-hidden /> Call {site.phones.main.display}
-            </a>
+            </PhoneLink>
           </div>
         </div>
       )}
