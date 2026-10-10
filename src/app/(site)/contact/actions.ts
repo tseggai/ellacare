@@ -13,6 +13,10 @@ const schema = z
     preferred_date: z
       .string()
       .regex(/^\d{4}-\d{2}-\d{2}$/)
+      .refine((d) => {
+        const day = new Date(`${d}T12:00:00`).getDay();
+        return day !== 0 && day !== 6 && d >= new Date().toISOString().slice(0, 10);
+      }, "Please choose an upcoming weekday.")
       .optional(),
     care_needs: z.string().trim().max(2000).optional(),
     message: z.string().trim().max(5000).optional(),

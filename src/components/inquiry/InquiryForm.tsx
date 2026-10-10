@@ -11,10 +11,12 @@ import {
   PhoneCall,
   type LucideIcon,
 } from "lucide-react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Plus } from "lucide-react";
+import Link from "next/link";
 import { useActionState, useState } from "react";
 import { submitInquiry, type InquiryState } from "@/app/(site)/contact/actions";
 import { useSite } from "@/components/SiteProvider";
+import { useInquiry } from "./InquiryProvider";
 import { PhoneLink } from "@/components/PhoneLink";
 
 export type InquiryType = "tour" | "question" | "callback";
@@ -48,6 +50,39 @@ const careNeeds = [
   "Not sure yet",
 ];
 
+// Tours can be booked from three days out, on weekdays only.
+function visitDates(count = 10) {
+  const out: { value: string; label: string }[] = [];
+  const d = new Date();
+  d.setHours(12, 0, 0, 0);
+  d.setDate(d.getDate() + 3);
+  const fmt = new Intl.DateTimeFormat("en-US", { weekday: "short", month: "short", day: "numeric" });
+  while (out.length < count) {
+    const day = d.getDay();
+    if (day !== 0 && day !== 6) {
+      const value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+      out.push({ value, label: fmt.format(d) });
+    }
+    d.setDate(d.getDate() + 1);
+  }
+  return out;
+}
+
+// FAQs whose question or answer shares a meaningful word with what was typed.
+function matchFaqs(faqs: { id: string; question: string; answer: string }[], text: string, limit = 3) {
+  const words = text.toLowerCase().match(/[a-z]{4,}/g) ?? [];
+  if (words.length === 0) return [];
+  return faqs
+    .map((f) => {
+      const hay = `${f.question} ${f.answer}`.toLowerCase();
+      return { f, score: words.filter((w) => hay.includes(w)).length };
+    })
+    .filter((x) => x.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map((x) => x.f);
+}
+
 const field =
   "block w-full rounded-2xl bg-paper px-4 py-3.5 text-lg ring-1 ring-line placeholder:text-muted/70 focus:bg-white focus:ring-2 focus:ring-brand focus:outline-none aria-invalid:ring-2 aria-invalid:ring-red-500";
 
@@ -67,10 +102,13 @@ export function InquiryForm({
 }) {
   const [state, action, pending] = useActionState(submitInquiry, initial);
   const site = useSite();
+  const { faqs } = useInquiry();
   const [type, setType] = useState<InquiryType>(initialType);
   const [stepIndex, setStepIndex] = useState(0);
   const [relationship, setRelationship] = useState("");
   const [careNeed, setCareNeed] = useState("");
+  const [question, setQuestion] = useState("");
+  const suggestions = type === "question" ? matchFaqs(faqs, question) : [];
 
   const steps: Step[] = type === "callback" ? ["choose", "contact"] : ["choose", "details", "contact"];
   const step = steps[Math.min(stepIndex, steps.length - 1)];
@@ -93,12 +131,7 @@ export function InquiryForm({
         <p className="lead mx-auto mt-4 max-w-md">
           {type === "callback"
             ? "We’ll call you soon, usually the same day."
-            : `We received your ${type === "tour" ? "tour request" : "question"} and will get back to you within one business day.`}{" "}
-          Need us sooner? Call{" "}
-          <PhoneLink {...site.phones.main} className="font-semibold text-brand underline underline-offset-4">
-            {site.phones.main.display}
-          </PhoneLink>
-          .
+            : `We received your ${type === "tour" ? "tour request" : "question"} and will get back to you within one business day.`}
         </p>
         {onDone && (
           <button type="button" onClick={onDone} className="btn-primary mt-8">
@@ -111,7 +144,7 @@ export function InquiryForm({
 
   const err = state.fieldErrors ?? {};
   const v = state.values ?? {};
-  const today = new Date().toISOString().slice(0, 10);
+  const dates = visitDates();
   const titles: Record<Step, string> = {
     choose: "How can we help?",
     details: type === "tour" ? "Tell us about your visit" : "What’s your question?",
@@ -230,19 +263,26 @@ export function InquiryForm({
 
       {/* Details */}
       <div hidden={step !== "details"} className="mt-8 grid gap-4">
-        {type !== "callback" && (
+        {type === "tour" && (
           <>
-            <label className={`${field} flex items-center justify-between gap-3 ${err.preferred_date ? "ring-2 ring-red-500" : ""}`}>
-              <span className="shrink-0 text-muted">Visit date</span>
-              <input
+            <div className="relative">
+              <select
                 name="preferred_date"
-                type="date"
-                min={today}
-                defaultValue={v.preferred_date}
+                aria-label="Preferred visit date"
+                defaultValue={v.preferred_date ?? ""}
                 aria-invalid={err.preferred_date ? true : undefined}
-                className="min-w-0 flex-1 bg-transparent text-right text-ink focus:outline-none"
-              />
-            </label>
+                className={`${field} appearance-none pr-11 ${err.preferred_date ? "ring-2 ring-red-500" : ""}`}
+              >
+                <option value="">Visit date (optional)</option>
+                {dates.map((d) => (
+                  <option key={d.value} value={d.value}>
+                    {d.label}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="pointer-events-none absolute top-1/2 right-4 h-5 w-5 -translate-y-1/2 text-muted" aria-hidden />
+            </div>
+            <p className="-mt-2 px-1 text-sm text-muted">Visits are weekdays, from three days out.</p>
             <div className="relative">
               <select
                 name="care_needs"
@@ -261,16 +301,60 @@ export function InquiryForm({
               <ChevronDown className="pointer-events-none absolute top-1/2 right-4 h-5 w-5 -translate-y-1/2 text-muted" aria-hidden />
             </div>
             <label htmlFor="message" className="sr-only">
-              {type === "tour" ? "Anything else we should know" : "Your question"}
+              Anything else we should know
             </label>
             <textarea
               id="message"
               name="message"
-              rows={type === "tour" ? 4 : 5}
+              rows={4}
               defaultValue={v.message}
-              placeholder={type === "tour" ? "Anything else we should know? (optional)" : "Type your question here"}
+              placeholder="Anything else we should know? (optional)"
               className={field}
             />
+          </>
+        )}
+        {type === "question" && (
+          <>
+            <label htmlFor="question" className="sr-only">
+              Your question
+            </label>
+            <textarea
+              id="question"
+              name="message"
+              rows={3}
+              defaultValue={v.message}
+              onChange={(e) => setQuestion(e.target.value)}
+              placeholder="Type your question here"
+              className={field}
+            />
+            {suggestions.length > 0 && (
+              <div className="rounded-3xl bg-sky-tint/60 p-4 ring-1 ring-sky/40">
+                <p className="text-sm font-bold tracking-[0.12em] text-brand uppercase">This might answer it</p>
+                <div className="mt-3 grid gap-2">
+                  {suggestions.map((f) => (
+                    <details key={f.id} className="group rounded-2xl bg-white ring-1 ring-line">
+                      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 font-semibold [&::-webkit-details-marker]:hidden">
+                        {f.question}
+                        <Plus className="h-4 w-4 shrink-0 text-brand transition-transform group-open:rotate-45" aria-hidden />
+                      </summary>
+                      <p className="px-4 pb-4 leading-relaxed text-muted">{f.answer}</p>
+                    </details>
+                  ))}
+                </div>
+                {onDone && (
+                  <button type="button" onClick={onDone} className="mt-3 font-semibold text-brand hover:underline">
+                    That answered my question
+                  </button>
+                )}
+              </div>
+            )}
+            <p className="px-1 text-sm text-muted">
+              Not sure yet? Browse the{" "}
+              <Link href="/#faq" onClick={onDone} className="font-semibold text-brand hover:underline">
+                common questions
+              </Link>
+              , or continue and we’ll reply by email.
+            </p>
           </>
         )}
       </div>
