@@ -11,6 +11,7 @@ import {
   PhoneCall,
   type LucideIcon,
 } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { useActionState, useState } from "react";
 import { submitInquiry, type InquiryState } from "@/app/(site)/contact/actions";
 import { useSite } from "@/components/SiteProvider";
@@ -56,6 +57,7 @@ export function InquiryForm({
   const site = useSite();
   const [type, setType] = useState<InquiryType>(initialType);
   const [stepIndex, setStepIndex] = useState(0);
+  const [relationship, setRelationship] = useState("");
 
   const steps: Step[] = type === "callback" ? ["choose", "contact"] : ["choose", "details", "contact"];
   const step = steps[Math.min(stepIndex, steps.length - 1)];
@@ -126,19 +128,19 @@ export function InquiryForm({
           ))}
         </div>
       </div>
-      <h2 className="mt-4 text-3xl font-semibold tracking-tight" aria-live="polite">
+      <h2 className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl" aria-live="polite">
         {titles[step]}
       </h2>
 
       {/* Choose */}
-      <div hidden={step !== "choose"} className="mt-8 space-y-8">
+      <div hidden={step !== "choose"} className="mt-5 space-y-5">
         <fieldset>
           <legend className="sr-only">What would you like to do?</legend>
-          <div className="grid gap-3 sm:grid-cols-3">
+          <div className="grid grid-cols-3 gap-2 sm:gap-3">
             {options.map(({ value, label, hint, icon: Icon }) => (
               <label
                 key={value}
-                className="flex cursor-pointer flex-col gap-3 rounded-3xl bg-paper p-5 ring-1 ring-line transition-all hover:ring-ink/30 has-checked:bg-sky-tint has-checked:ring-2 has-checked:ring-brand has-focus-visible:ring-2 has-focus-visible:ring-brand"
+                className="flex cursor-pointer flex-col items-center gap-2 rounded-2xl bg-paper px-2 py-3.5 text-center ring-1 ring-line transition-all hover:ring-ink/30 has-checked:bg-sky-tint has-checked:ring-2 has-checked:ring-brand has-focus-visible:ring-2 has-focus-visible:ring-brand sm:items-start sm:gap-3 sm:rounded-3xl sm:p-5 sm:text-left"
               >
                 <input
                   type="radio"
@@ -153,84 +155,104 @@ export function InquiryForm({
                 />
                 <Icon className="h-6 w-6 text-brand" aria-hidden />
                 <span>
-                  <span className="block text-lg leading-tight font-semibold">{label}</span>
-                  <span className="mt-1 block text-[0.95rem] text-muted">{hint}</span>
+                  <span className="block text-[0.95rem] leading-tight font-semibold sm:text-lg">{label}</span>
+                  <span className="mt-1 hidden text-[0.95rem] text-muted sm:block">{hint}</span>
                 </span>
               </label>
             ))}
           </div>
-          <p className="mt-4 flex flex-wrap items-center gap-x-2 text-muted">
-            Prefer to talk right now?
-            <PhoneLink {...site.phones.main} className="inline-flex items-center gap-1.5 font-semibold text-brand hover:underline">
-              <Phone className="h-4 w-4" aria-hidden /> Call {site.phones.main.display}
-            </PhoneLink>
+          <p className="mt-3 text-[0.95rem] text-muted sm:hidden" aria-live="polite">
+            {options.find((o) => o.value === type)?.hint}
           </p>
         </fieldset>
 
         <fieldset>
-          <legend className="mb-3 text-lg font-semibold">
-            You are… <span className="font-normal text-muted">(optional)</span>
-          </legend>
-          <div className="flex flex-wrap gap-2">
-            {relationships.map((r) => (
-              <label
-                key={r}
-                className="cursor-pointer rounded-full bg-paper px-4 py-2.5 font-semibold ring-1 ring-line transition-all hover:ring-ink/30 has-checked:bg-ink has-checked:text-white has-checked:ring-ink has-focus-visible:ring-2 has-focus-visible:ring-brand"
-              >
-                <input type="radio" name="relationship" value={r} defaultChecked={v.relationship === r} className="sr-only" />
-                {r}
-              </label>
-            ))}
+          <legend className="sr-only">You are…</legend>
+          <input type="hidden" name="relationship" value={relationship} />
+          {/* Phones: a native dropdown keeps the whole step on one screen. */}
+          <div className="relative sm:hidden">
+            <select
+              aria-label="You are…"
+              value={relationship}
+              onChange={(e) => setRelationship(e.target.value)}
+              className={`${field} appearance-none pr-11 ${relationship ? "" : "text-muted/70"}`}
+            >
+              <option value="">You are… (optional)</option>
+              {relationships.map((r) => (
+                <option key={r} value={r}>
+                  {r}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="pointer-events-none absolute top-1/2 right-4 h-5 w-5 -translate-y-1/2 text-muted" aria-hidden />
+          </div>
+          {/* Larger screens: tappable chips. */}
+          <div className="hidden sm:block">
+            <p className="mb-3 text-lg font-semibold">
+              You are… <span className="font-normal text-muted">(optional)</span>
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {relationships.map((r) => (
+                <button
+                  key={r}
+                  type="button"
+                  aria-pressed={relationship === r}
+                  onClick={() => setRelationship(relationship === r ? "" : r)}
+                  className="rounded-full bg-paper px-4 py-2.5 font-semibold ring-1 ring-line transition-all hover:ring-ink/30 aria-pressed:bg-ink aria-pressed:text-white aria-pressed:ring-ink"
+                >
+                  {r}
+                </button>
+              ))}
+            </div>
           </div>
         </fieldset>
+
+        <p className="flex flex-wrap items-center gap-x-2 text-[0.95rem] text-muted">
+          Prefer to talk right now?
+          <PhoneLink {...site.phones.main} className="inline-flex items-center gap-1.5 font-semibold text-brand hover:underline">
+            <Phone className="h-4 w-4" aria-hidden /> Call {site.phones.main.display}
+          </PhoneLink>
+        </p>
       </div>
 
       {/* Details */}
-      <div hidden={step !== "details"} className="mt-8 space-y-6">
+      <div hidden={step !== "details"} className="mt-5 grid gap-3">
         {type === "tour" && (
-          <>
-            <div>
-              <label htmlFor="preferred_date" className="mb-2 block text-lg font-semibold">
-                Preferred visit date <span className="font-normal text-muted">(optional)</span>
-              </label>
-              <input
-                id="preferred_date"
-                name="preferred_date"
-                type="date"
-                min={today}
-                defaultValue={v.preferred_date}
-                aria-invalid={err.preferred_date ? true : undefined}
-                className={`${field} sm:max-w-xs`}
-              />
-            </div>
-            <div>
-              <label htmlFor="care_needs" className="mb-2 block text-lg font-semibold">
-                Care needs <span className="font-normal text-muted">(optional)</span>
-              </label>
-              <textarea
-                id="care_needs"
-                name="care_needs"
-                rows={3}
-                defaultValue={v.care_needs}
-                placeholder="e.g. memory care, mobility help, diabetes management"
-                className={field}
-              />
-            </div>
-          </>
+          <label className={`${field} flex items-center justify-between gap-3 ${err.preferred_date ? "ring-2 ring-red-500" : ""}`}>
+            <span className="shrink-0 text-muted">Visit date</span>
+            <input
+              name="preferred_date"
+              type="date"
+              min={today}
+              defaultValue={v.preferred_date}
+              aria-invalid={err.preferred_date ? true : undefined}
+              className="bg-transparent text-right text-ink focus:outline-none"
+            />
+          </label>
         )}
         {type !== "callback" && (
-          <div>
-            <label htmlFor="message" className="mb-2 block text-lg font-semibold">
-              {type === "tour" ? "Anything else?" : "Your question"}{" "}
-              {type === "tour" && <span className="font-normal text-muted">(optional)</span>}
+          <>
+            <label htmlFor="message" className="sr-only">
+              {type === "tour" ? "Care needs and anything else we should know" : "Your question"}
             </label>
-            <textarea id="message" name="message" rows={type === "tour" ? 3 : 6} defaultValue={v.message} className={field} />
-          </div>
+            <textarea
+              id="message"
+              name="message"
+              rows={type === "tour" ? 5 : 6}
+              defaultValue={v.message ?? v.care_needs}
+              placeholder={
+                type === "tour"
+                  ? "Care needs or anything else we should know, e.g. memory care, mobility help (optional)"
+                  : "Type your question here"
+              }
+              className={field}
+            />
+          </>
         )}
       </div>
 
       {/* Contact */}
-      <div hidden={step !== "contact"} className="mt-8 grid gap-5 sm:grid-cols-2">
+      <div hidden={step !== "contact"} className="mt-5 grid gap-3 sm:grid-cols-2">
         <Field label="Your name" name="name" autoComplete="name" required defaultValue={v.name} error={err.name} />
         <Field
           label="Phone"
@@ -260,12 +282,12 @@ export function InquiryForm({
       </div>
 
       {state.status === "error" && state.message && isLast && (
-        <p role="alert" className="mt-6 rounded-2xl bg-red-50 p-4 font-medium text-red-800">
+        <p role="alert" className="mt-4 rounded-2xl bg-red-50 p-4 font-medium text-red-800">
           {state.message}
         </p>
       )}
 
-      <div className="mt-10 flex items-center justify-between gap-3 border-t border-line pt-6">
+      <div className="mt-6 flex items-center justify-between gap-3 border-t border-line pt-5">
         {stepIndex > 0 ? (
           <button type="button" onClick={() => setStepIndex(stepIndex - 1)} className="btn px-4 text-muted hover:text-ink">
             <ArrowLeft className="h-4 w-4" aria-hidden /> Back
@@ -288,7 +310,7 @@ export function InquiryForm({
           </button>
         )}
       </div>
-      {isLast && <p className="mt-4 text-sm text-muted">Your information is never shared without your permission.</p>}
+      {isLast && <p className="mt-3 text-sm text-muted">Your information is never shared without your permission.</p>}
     </form>
   );
 }
@@ -302,13 +324,15 @@ function Field({
 }: { label: string; name: string; error?: string; required?: boolean } & React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <div>
-      <label htmlFor={name} className="mb-2 block text-lg font-semibold">
-        {label} {required ? <span className="text-brand">*</span> : <span className="font-normal text-muted">(optional)</span>}
+      <label htmlFor={name} className="sr-only">
+        {label}
+        {required ? " (required)" : " (optional)"}
       </label>
       <input
         id={name}
         name={name}
         required={required}
+        placeholder={required ? `${label} *` : `${label} (optional)`}
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? `${name}-error` : undefined}
         className={field}
