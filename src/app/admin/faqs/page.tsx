@@ -1,46 +1,25 @@
-import { Plus } from "lucide-react";
 import type { Metadata } from "next";
 import { requireAdmin } from "@/lib/admin";
 import { getFaqs } from "@/lib/content";
-import { FaqForm } from "./FaqForm";
+import { FaqManager } from "./FaqManager";
 
 export const metadata: Metadata = { title: "FAQs" };
 
 export default async function FaqsAdminPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
   await requireAdmin();
   const [faqs, { q }] = await Promise.all([getFaqs(true), searchParams]);
-  const draft = q?.trim().slice(0, 300);
+  const draft = q?.trim().slice(0, 300) || undefined;
 
   return (
     <>
       <p className="text-sm font-bold tracking-[0.12em] text-brand uppercase">FAQs</p>
-      <h1 className="mt-1 text-3xl font-semibold tracking-tight">Common questions</h1>
-      <p className="mt-2 max-w-2xl text-muted">Shown on the home page in the order below. Unpublished questions are kept but hidden.</p>
-
-      <details className="card mt-8 p-5 sm:p-6" open={!!draft}>
-        <summary className="inline-flex cursor-pointer items-center gap-2 text-lg font-semibold">
-          <span className="grid h-8 w-8 place-items-center rounded-full bg-brand text-white">
-            <Plus className="h-4 w-4" aria-hidden />
-          </span>
-          Add a question
-        </summary>
-        <div className="mt-5">
-          {draft && <p className="mb-4 rounded-2xl bg-sky-tint p-3 text-sm">Question from a visitor. Write the answer, then add it.</p>}
-          <FaqForm key={draft ?? "new"} initialQuestion={draft} />
-        </div>
-      </details>
-
-      <ul className="mt-6 grid gap-4">
-        {faqs.map((f) => (
-          <li key={f.id} className={`card p-5 sm:p-6 ${f.published ? "" : "opacity-70"}`}>
-            <p className="mb-4 text-sm font-bold tracking-[0.12em] uppercase">
-              <span className={f.published ? "text-leaf" : "text-muted"}>{f.published ? "Published" : "Hidden"}</span>
-              <span className="text-muted"> · order {f.sort_order}</span>
-            </p>
-            <FaqForm row={f} />
-          </li>
-        ))}
-      </ul>
+      <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">Common questions</h1>
+      <p className="mt-2 max-w-2xl text-muted">
+        Shown on the home page in the order below, and suggested to visitors as they type a question. Drag to reorder; tap one to edit.
+      </p>
+      <div className="mt-6">
+        <FaqManager key={draft ?? "list"} faqs={faqs} draftQuestion={draft} />
+      </div>
     </>
   );
 }
