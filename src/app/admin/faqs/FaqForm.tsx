@@ -6,16 +6,16 @@ import type { Faq } from "@/lib/content";
 import { Field, field, idleState } from "../ui";
 import { deleteFaq, saveFaq } from "./actions";
 
-export function FaqForm({ row }: { row?: Faq }) {
+export function FaqForm({ row, initialQuestion }: { row?: Faq; initialQuestion?: string }) {
   const [state, action, pending] = useActionState(saveFaq, idleState);
   return (
     <form action={action} className="grid gap-4">
       {row && <input type="hidden" name="id" value={row.id} />}
       <Field label="Question">
-        <input name="question" required maxLength={300} defaultValue={row?.question} className={field} />
+        <input name="question" required maxLength={300} defaultValue={row?.question ?? initialQuestion} className={field} />
       </Field>
       <Field label="Answer">
-        <textarea name="answer" required rows={4} maxLength={3000} defaultValue={row?.answer} className={field} />
+        <textarea name="answer" required rows={4} maxLength={3000} defaultValue={row?.answer} autoFocus={!!initialQuestion} className={field} />
       </Field>
       <div className="flex flex-wrap items-end gap-5">
         <Field label="Order" hint="lowest first">
