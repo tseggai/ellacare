@@ -36,6 +36,18 @@ const relationships = [
   "Healthcare professional",
 ];
 
+const careNeeds = [
+  "Memory care / dementia",
+  "Mobility assistance",
+  "Medication management",
+  "Diabetes management",
+  "Post-hospital recovery",
+  "Hospice / end-of-life care",
+  "Incontinence care",
+  "Companionship and daily help",
+  "Not sure yet",
+];
+
 const field =
   "block w-full rounded-2xl bg-paper px-4 py-3.5 text-lg ring-1 ring-line placeholder:text-muted/70 focus:bg-white focus:ring-2 focus:ring-brand focus:outline-none aria-invalid:ring-2 aria-invalid:ring-red-500";
 
@@ -58,6 +70,7 @@ export function InquiryForm({
   const [type, setType] = useState<InquiryType>(initialType);
   const [stepIndex, setStepIndex] = useState(0);
   const [relationship, setRelationship] = useState("");
+  const [careNeed, setCareNeed] = useState("");
 
   const steps: Step[] = type === "callback" ? ["choose", "contact"] : ["choose", "details", "contact"];
   const step = steps[Math.min(stepIndex, steps.length - 1)];
@@ -128,12 +141,12 @@ export function InquiryForm({
           ))}
         </div>
       </div>
-      <h2 className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl" aria-live="polite">
+      <h2 className="mt-6 text-2xl font-semibold tracking-tight sm:mt-4 sm:text-3xl" aria-live="polite">
         {titles[step]}
       </h2>
 
       {/* Choose */}
-      <div hidden={step !== "choose"} className="mt-5 space-y-5">
+      <div hidden={step !== "choose"} className="mt-8 space-y-7">
         <fieldset>
           <legend className="sr-only">What would you like to do?</legend>
           <div className="grid grid-cols-3 gap-2 sm:gap-3">
@@ -161,7 +174,7 @@ export function InquiryForm({
               </label>
             ))}
           </div>
-          <p className="mt-3 text-[0.95rem] text-muted sm:hidden" aria-live="polite">
+          <p className="mt-4 text-[0.95rem] text-muted sm:hidden" aria-live="polite">
             {options.find((o) => o.value === type)?.hint}
           </p>
         </fieldset>
@@ -216,35 +229,46 @@ export function InquiryForm({
       </div>
 
       {/* Details */}
-      <div hidden={step !== "details"} className="mt-5 grid gap-3">
-        {type === "tour" && (
-          <label className={`${field} flex items-center justify-between gap-3 ${err.preferred_date ? "ring-2 ring-red-500" : ""}`}>
-            <span className="shrink-0 text-muted">Visit date</span>
-            <input
-              name="preferred_date"
-              type="date"
-              min={today}
-              defaultValue={v.preferred_date}
-              aria-invalid={err.preferred_date ? true : undefined}
-              className="bg-transparent text-right text-ink focus:outline-none"
-            />
-          </label>
-        )}
+      <div hidden={step !== "details"} className="mt-8 grid gap-4">
         {type !== "callback" && (
           <>
+            <label className={`${field} flex items-center justify-between gap-3 ${err.preferred_date ? "ring-2 ring-red-500" : ""}`}>
+              <span className="shrink-0 text-muted">Visit date</span>
+              <input
+                name="preferred_date"
+                type="date"
+                min={today}
+                defaultValue={v.preferred_date}
+                aria-invalid={err.preferred_date ? true : undefined}
+                className="min-w-0 flex-1 bg-transparent text-right text-ink focus:outline-none"
+              />
+            </label>
+            <div className="relative">
+              <select
+                name="care_needs"
+                aria-label="Care needs"
+                value={careNeed}
+                onChange={(e) => setCareNeed(e.target.value)}
+                className={`${field} appearance-none pr-11 ${careNeed ? "" : "text-muted/70"}`}
+              >
+                <option value="">Care needs (optional)</option>
+                {careNeeds.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="pointer-events-none absolute top-1/2 right-4 h-5 w-5 -translate-y-1/2 text-muted" aria-hidden />
+            </div>
             <label htmlFor="message" className="sr-only">
-              {type === "tour" ? "Care needs and anything else we should know" : "Your question"}
+              {type === "tour" ? "Anything else we should know" : "Your question"}
             </label>
             <textarea
               id="message"
               name="message"
-              rows={type === "tour" ? 5 : 6}
-              defaultValue={v.message ?? v.care_needs}
-              placeholder={
-                type === "tour"
-                  ? "Care needs or anything else we should know, e.g. memory care, mobility help (optional)"
-                  : "Type your question here"
-              }
+              rows={type === "tour" ? 4 : 5}
+              defaultValue={v.message}
+              placeholder={type === "tour" ? "Anything else we should know? (optional)" : "Type your question here"}
               className={field}
             />
           </>
@@ -252,7 +276,7 @@ export function InquiryForm({
       </div>
 
       {/* Contact */}
-      <div hidden={step !== "contact"} className="mt-5 grid gap-3 sm:grid-cols-2">
+      <div hidden={step !== "contact"} className="mt-8 grid gap-4 sm:grid-cols-2">
         <Field label="Your name" name="name" autoComplete="name" required defaultValue={v.name} error={err.name} />
         <Field
           label="Phone"
@@ -287,7 +311,7 @@ export function InquiryForm({
         </p>
       )}
 
-      <div className="mt-6 flex items-center justify-between gap-3 border-t border-line pt-5">
+      <div className="mt-10 flex items-center justify-between gap-3 border-t border-line pt-6">
         {stepIndex > 0 ? (
           <button type="button" onClick={() => setStepIndex(stepIndex - 1)} className="btn px-4 text-muted hover:text-ink">
             <ArrowLeft className="h-4 w-4" aria-hidden /> Back
@@ -310,7 +334,7 @@ export function InquiryForm({
           </button>
         )}
       </div>
-      {isLast && <p className="mt-3 text-sm text-muted">Your information is never shared without your permission.</p>}
+      {isLast && <p className="mt-5 text-sm text-muted">Your information is never shared without your permission.</p>}
     </form>
   );
 }
