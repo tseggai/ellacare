@@ -4,14 +4,15 @@ import { Header } from "@/components/Header";
 import { InquiryProvider } from "@/components/inquiry/InquiryProvider";
 import { MobileActionBar } from "@/components/MobileActionBar";
 import { SiteProvider } from "@/components/SiteProvider";
-import { getBanner, getFaqs, getSite } from "@/lib/content";
+import { getBanner, getFaqs, getGallery, getSite } from "@/lib/content";
 
 // Business details come from the admin area; re-read at most once an hour, and
 // immediately after staff save a change (revalidatePath).
 export const revalidate = 3600;
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
-  const [site, banner, faqs] = await Promise.all([getSite(), getBanner(), getFaqs()]);
+  const [site, banner, faqs, rooms] = await Promise.all([getSite(), getBanner(), getFaqs(), getGallery()]);
+  const featured = rooms[0]?.src ?? "/images/rooms/room-4271.jpg";
 
   const localBusiness = {
     "@context": "https://schema.org",
@@ -22,7 +23,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
     url: site.url,
     telephone: site.phones.main.tel,
     faxNumber: site.phones.fax.display,
-    image: `${site.url}/images/rooms/room-4271.jpg`,
+    image: featured.startsWith("http") ? featured : `${site.url}${featured}`,
     address: {
       "@type": "PostalAddress",
       streetAddress: site.address.street,
