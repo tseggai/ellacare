@@ -44,12 +44,12 @@ export function InquiryProvider({ children }: { children: React.ReactNode }) {
         className="m-auto h-dvh max-h-none w-full max-w-none bg-transparent p-0 text-ink backdrop:bg-night/60 backdrop:backdrop-blur-sm sm:h-auto sm:max-h-[92dvh] sm:max-w-2xl sm:p-4"
       >
         {active && (
-          <div className="relative flex h-full flex-col overflow-y-auto bg-white p-6 shadow-2xl sm:h-auto sm:animate-rise sm:rounded-4xl sm:p-10">
+          <div className="relative flex h-full flex-col overflow-y-auto bg-white px-6 pt-10 pb-8 shadow-2xl sm:h-auto sm:animate-rise sm:rounded-4xl sm:p-10">
             <button
               type="button"
               onClick={close}
               aria-label="Close"
-              className="absolute top-4 right-4 grid h-11 w-11 place-items-center rounded-full bg-paper text-ink ring-1 ring-line hover:bg-sky-tint"
+              className="absolute top-6 right-5 grid sm:top-4 sm:right-4 h-11 w-11 place-items-center rounded-full bg-paper text-ink ring-1 ring-line hover:bg-sky-tint"
             >
               <X className="h-5 w-5" aria-hidden />
             </button>
