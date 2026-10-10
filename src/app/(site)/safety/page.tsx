@@ -2,6 +2,7 @@ import { Ban, BellRing, FileLock2, Scale, ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
 import { CtaBand } from "@/components/CtaBand";
 import { PageHero } from "@/components/PageHero";
+import { SectionHeading } from "@/components/SectionHeading";
 
 export const metadata: Metadata = {
   title: "Safety & Policies",
@@ -48,8 +49,17 @@ export default function SafetyPage() {
         }
         intro="Clear policies and well-practiced procedures give residents and families peace of mind."
       />
-      <section className="container-page pb-8">
-        <ul className="grid gap-4 md:grid-cols-2">
+      <section className="bg-white py-20 sm:py-28">
+        <div className="container-page">
+        <SectionHeading
+          eyebrow="Our policies"
+          title={
+            <>
+              Five commitments to <span className="accent grad-text">every resident.</span>
+            </>
+          }
+        />
+        <ul className="mt-12 grid gap-4 md:grid-cols-2">
           {policies.map(({ icon: Icon, title, body }, i) => (
             <li
               key={title}
@@ -67,6 +77,7 @@ export default function SafetyPage() {
             </li>
           ))}
         </ul>
+        </div>
       </section>
       <CtaBand
         title={

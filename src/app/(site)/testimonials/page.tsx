@@ -2,6 +2,7 @@ import { Quote } from "lucide-react";
 import type { Metadata } from "next";
 import { CtaBand } from "@/components/CtaBand";
 import { PageHero } from "@/components/PageHero";
+import { SectionHeading } from "@/components/SectionHeading";
 import { getTestimonials } from "@/lib/testimonials";
 
 export const metadata: Metadata = {
@@ -27,8 +28,17 @@ export default async function TestimonialsPage() {
         intro="In their own words: what residents’ families have told us about life at EllaCare."
       />
 
-      <section className="container-page pb-8">
-        <ul className="grid gap-5 lg:grid-cols-2">
+      <section className="bg-white py-20 sm:py-28">
+        <div className="container-page">
+        <SectionHeading
+          eyebrow="In their words"
+          title={
+            <>
+              Every story, <span className="accent grad-text">in full.</span>
+            </>
+          }
+        />
+        <ul className="mt-12 grid gap-5 lg:grid-cols-2">
           {stories.map((t, i) => (
             <li
               key={t.id}
@@ -54,6 +64,7 @@ export default async function TestimonialsPage() {
             </li>
           ))}
         </ul>
+        </div>
       </section>
 
       <CtaBand

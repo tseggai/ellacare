@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { CheckList } from "@/components/CheckList";
 import { CtaBand } from "@/components/CtaBand";
 import { PageHero } from "@/components/PageHero";
+import { SectionHeading } from "@/components/SectionHeading";
 import { basicServices, medicalServices } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -53,7 +54,18 @@ export default function ServicesPage() {
       />
 
       <section className="bg-white py-20 sm:py-28">
-        <div className="container-page grid gap-4 lg:grid-cols-2">
+        <div className="container-page">
+          <SectionHeading
+            eyebrow="What’s included"
+            title={
+              <>
+                Care for <span className="accent grad-text">every part</span> of the day.
+              </>
+            }
+            intro="Daily living support for every resident, with professional medical care on call."
+          />
+        </div>
+        <div className="container-page mt-12 grid gap-4 lg:grid-cols-2">
           <div className="reveal rounded-4xl bg-paper p-8 ring-1 ring-line sm:p-10">
             <span className="grid h-12 w-12 place-items-center rounded-2xl bg-white text-brand ring-1 ring-line">
               <House className="h-6 w-6" aria-hidden />

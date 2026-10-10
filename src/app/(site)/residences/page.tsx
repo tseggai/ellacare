@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { CtaBand } from "@/components/CtaBand";
 import { Gallery } from "@/components/Gallery";
 import { PageHero } from "@/components/PageHero";
+import { SectionHeading } from "@/components/SectionHeading";
 import { getGallery } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -22,8 +23,21 @@ export default async function ResidencesPage() {
         }
         intro="Providing a home atmosphere that is comfortable and tasteful is our core mission. Explore our relaxing, eating and cooking, sleeping, bathing and outdoor spaces."
       />
-      <section className="container-page pb-8">
-        <Gallery rooms={rooms} />
+      <section className="bg-white py-20 sm:py-28">
+        <div className="container-page">
+          <SectionHeading
+            eyebrow="Photo gallery"
+            title={
+              <>
+                Every room, <span className="accent grad-text">at a glance.</span>
+              </>
+            }
+            intro="Filter by area, or scroll through the whole home."
+          />
+          <div className="mt-10">
+            <Gallery rooms={rooms} />
+          </div>
+        </div>
       </section>
       <CtaBand
         title={

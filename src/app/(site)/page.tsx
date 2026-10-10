@@ -50,12 +50,14 @@ export default async function Home() {
             </h1>
             <p className="lead mt-6 max-w-xl">{home.heroIntro}</p>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <InquiryButton inquiry="tour" className="btn-primary">
-                Book a tour <ArrowRight className="h-4 w-4" aria-hidden />
+            <div data-hero-actions className="mt-8 grid grid-cols-2 gap-3 sm:flex">
+              <InquiryButton inquiry="tour" className="btn-primary px-4 sm:px-6">
+                Book a tour <ArrowRight className="hidden h-4 w-4 sm:block" aria-hidden />
               </InquiryButton>
               <PhoneLink {...site.phones.main} className="btn-ghost">
-                <Phone className="h-4 w-4 text-brand" aria-hidden /> Call {site.phones.main.display}
+                <Phone className="h-4 w-4 text-brand" aria-hidden />
+                <span className="sm:hidden">Call</span>
+                <span className="hidden sm:inline">Call {site.phones.main.display}</span>
               </PhoneLink>
             </div>
 
@@ -193,7 +195,8 @@ export default async function Home() {
       </section>
 
       {/* ───────────── Daily life bento ───────────── */}
-      <section className="container-page pb-20 sm:pb-28">
+      <section className="bg-white py-20 sm:py-28">
+        <div className="container-page">
         <SectionHeading
           eyebrow="Daily life"
           title={
@@ -252,6 +255,7 @@ export default async function Home() {
               </li>
             </ul>
           </Link>
+        </div>
         </div>
       </section>
 
