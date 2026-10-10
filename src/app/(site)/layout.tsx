@@ -4,14 +4,14 @@ import { Header } from "@/components/Header";
 import { InquiryProvider } from "@/components/inquiry/InquiryProvider";
 import { MobileActionBar } from "@/components/MobileActionBar";
 import { SiteProvider } from "@/components/SiteProvider";
-import { getBanner, getSite } from "@/lib/content";
+import { getBanner, getFaqs, getSite } from "@/lib/content";
 
 // Business details come from the admin area; re-read at most once an hour, and
 // immediately after staff save a change (revalidatePath).
 export const revalidate = 3600;
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
-  const [site, banner] = await Promise.all([getSite(), getBanner()]);
+  const [site, banner, faqs] = await Promise.all([getSite(), getBanner(), getFaqs()]);
 
   const localBusiness = {
     "@context": "https://schema.org",
@@ -35,7 +35,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
 
   return (
     <SiteProvider site={site}>
-      <InquiryProvider>
+      <InquiryProvider faqs={faqs}>
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:text-white"

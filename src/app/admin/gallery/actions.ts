@@ -15,9 +15,8 @@ function refresh() {
 }
 
 const meta = z.object({
-  title: z.string().trim().min(1, "Give the photo a title.").max(120),
+  title: z.string().trim().min(1, "Give the photo a short name.").max(120),
   category: z.string().trim().min(1, "Choose a category.").max(60),
-  sort_order: z.coerce.number().int().min(0).max(10000).default(100),
   published: z.boolean(),
 });
 
@@ -36,6 +35,10 @@ export async function uploadPhoto(_prev: ActionState, formData: FormData): Promi
   const supabase = getSupabaseAdmin();
   if (!supabase) return { status: "error", message: "Database not configured." };
 
+  // New photos go to the end of the gallery.
+  const { data: last } = await supabase.from("gallery_photos").select("sort_order").order("sort_order", { ascending: false }).limit(1).maybeSingle();
+  const sort_order = (last?.sort_order ?? 0) + 10;
+
   const slug = parsed.data.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "").slice(0, 40) || "photo";
   const path = `${Date.now()}-${slug}.${ext}`;
   const { error: upErr } = await supabase.storage
@@ -43,13 +46,15 @@ export async function uploadPhoto(_prev: ActionState, formData: FormData): Promi
     .upload(path, Buffer.from(await file.arrayBuffer()), { contentType: file.type, cacheControl: "31536000" });
   if (upErr) return { status: "error", message: `Upload failed: ${upErr.message}` };
 
-  const { error } = await supabase.from("gallery_photos").insert({ ...parsed.data, src: galleryPublicUrl(path), storage_path: path });
+  const { error } = await supabase
+    .from("gallery_photos")
+    .insert({ ...parsed.data, sort_order, src: galleryPublicUrl(path), storage_path: path });
   if (error) {
     await supabase.storage.from("gallery").remove([path]);
     return { status: "error", message: error.message };
   }
   refresh();
-  return { status: "saved", message: "Photo added to the gallery." };
+  return { status: "saved", message: "Photo added." };
 }
 
 export async function savePhoto(_prev: ActionState, formData: FormData): Promise<ActionState> {
@@ -66,14 +71,32 @@ export async function savePhoto(_prev: ActionState, formData: FormData): Promise
   return { status: "saved", message: "Saved." };
 }
 
-export async function deletePhoto(formData: FormData) {
+export async function deletePhoto(id: string): Promise<ActionState> {
   await requireAdmin();
-  const id = z.string().uuid().safeParse(formData.get("id"));
-  if (!id.success) return;
+  const parsed = z.string().uuid().safeParse(id);
+  if (!parsed.success) return { status: "error", message: "Unknown photo." };
   const supabase = getSupabaseAdmin();
-  if (!supabase) return;
-  const { data } = await supabase.from("gallery_photos").select("storage_path").eq("id", id.data).maybeSingle();
-  await supabase.from("gallery_photos").delete().eq("id", id.data);
+  if (!supabase) return { status: "error", message: "Database not configured." };
+  const { data } = await supabase.from("gallery_photos").select("storage_path").eq("id", parsed.data).maybeSingle();
+  const { error } = await supabase.from("gallery_photos").delete().eq("id", parsed.data);
+  if (error) return { status: "error", message: error.message };
   if (data?.storage_path) await supabase.storage.from("gallery").remove([data.storage_path]);
   refresh();
+  return { status: "saved", message: "Photo deleted." };
+}
+
+// Persist a drag-and-drop order: position in the list becomes the sort order.
+export async function reorderPhotos(ids: string[]): Promise<ActionState> {
+  await requireAdmin();
+  const parsed = z.array(z.string().uuid()).max(500).safeParse(ids);
+  if (!parsed.success) return { status: "error", message: "Could not save the order." };
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return { status: "error", message: "Database not configured." };
+  const results = await Promise.all(
+    parsed.data.map((id, i) => supabase.from("gallery_photos").update({ sort_order: (i + 1) * 10 }).eq("id", id)),
+  );
+  const failed = results.find((r) => r.error);
+  if (failed?.error) return { status: "error", message: failed.error.message };
+  refresh();
+  return { status: "saved", message: "Order saved." };
 }

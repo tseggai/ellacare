@@ -1,36 +1,28 @@
 import type { Metadata } from "next";
 import { requireAdmin } from "@/lib/admin";
 import { getGallery } from "@/lib/content";
-import { PhotoCard, UploadForm } from "./PhotoForms";
+import { GalleryManager } from "./GalleryManager";
 
 export const metadata: Metadata = { title: "Photo gallery" };
 
-const defaultCategories = ["Sleeping", "Bathing", "Eating & cooking", "Relaxing", "Outdoors"];
+// Standard areas for an adult family home; the team can add more from the form.
+const standardCategories = ["Sleeping", "Bathing", "Relaxing", "Eating & cooking", "Outdoors", "Activities", "Safety & accessibility"];
 
 export default async function GalleryAdminPage() {
   await requireAdmin();
   const photos = await getGallery(true);
-  const categories = Array.from(new Set([...photos.map((p) => p.category), ...defaultCategories]));
+  const categories = Array.from(new Set([...standardCategories, ...photos.map((p) => p.category)]));
 
   return (
     <>
       <p className="text-sm font-bold tracking-[0.12em] text-brand uppercase">Photo gallery</p>
-      <h1 className="mt-1 text-3xl font-semibold tracking-tight">Photos of the home</h1>
+      <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">Photos of the home</h1>
       <p className="mt-2 max-w-2xl text-muted">
-        Shown on the “Our Home” page and in the home-page photo strip, in the order below. Landscape photos around
-        1600×1200 look best.
+        These appear on the “Our Home” page and the home-page photo strip, in the order shown. Drag a photo to reorder; tap one to edit.
       </p>
-
-      <section className="card mt-8 p-5 sm:p-6">
-        <h2 className="mb-4 text-lg font-semibold">Add a photo</h2>
-        <UploadForm categories={categories} />
-      </section>
-
-      <ul className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        {photos.map((p) => (
-          <PhotoCard key={p.id} photo={p} categories={categories} />
-        ))}
-      </ul>
+      <div className="mt-6">
+        <GalleryManager photos={photos} categories={categories} />
+      </div>
     </>
   );
 }

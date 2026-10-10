@@ -1,4 +1,4 @@
-import { CalendarDays, Mail, Phone } from "lucide-react";
+import { CalendarDays, Mail, MessageSquarePlus, Phone } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/admin";
@@ -117,8 +117,16 @@ export default async function InquiriesPage({ searchParams }: { searchParams: Pr
                 )}
                 {r.message && (
                   <div>
-                    <dt className="text-xs font-bold tracking-wider text-muted uppercase">Message</dt>
+                    <dt className="text-xs font-bold tracking-wider text-muted uppercase">{r.type === "question" ? "Question" : "Message"}</dt>
                     <dd className="mt-0.5 whitespace-pre-wrap">{r.message}</dd>
+                    {r.type === "question" && (
+                      <Link
+                        href={`/admin/faqs?q=${encodeURIComponent(r.message)}`}
+                        className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline"
+                      >
+                        <MessageSquarePlus className="h-4 w-4" aria-hidden /> Add to FAQs with an answer
+                      </Link>
+                    )}
                   </div>
                 )}
               </dl>

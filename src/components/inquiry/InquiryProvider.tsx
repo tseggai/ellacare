@@ -2,9 +2,10 @@
 
 import { X } from "lucide-react";
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
+import type { Faq } from "@/lib/content";
 import { InquiryForm, type InquiryType } from "./InquiryForm";
 
-const InquiryContext = createContext<{ open: (type?: InquiryType) => void }>({ open: () => {} });
+const InquiryContext = createContext<{ open: (type?: InquiryType) => void; faqs: Faq[] }>({ open: () => {}, faqs: [] });
 
 export function useInquiry() {
   return useContext(InquiryContext);
@@ -12,7 +13,7 @@ export function useInquiry() {
 
 // Site-wide inquiry overlay. Any "Book a tour" button opens it in place, so
 // visitors never leave the page they were reading.
-export function InquiryProvider({ children }: { children: React.ReactNode }) {
+export function InquiryProvider({ children, faqs = [] }: { children: React.ReactNode; faqs?: Faq[] }) {
   // `key` changes on every open so the form starts fresh each time.
   const [active, setActive] = useState<{ type: InquiryType; key: number } | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -34,7 +35,7 @@ export function InquiryProvider({ children }: { children: React.ReactNode }) {
   }, [active]);
 
   return (
-    <InquiryContext.Provider value={{ open }}>
+    <InquiryContext.Provider value={{ open, faqs }}>
       {children}
       <dialog
         ref={dialogRef}
