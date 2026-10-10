@@ -14,12 +14,9 @@ export const metadata: Metadata = {
     template: `%s | ${site.name}`,
   },
   description: `${site.name} is a licensed adult family home in ${site.address.city}, Washington: ${site.tagline.toLowerCase()} with 24/7 care, home-cooked meals and a warm, home-like setting.`,
-  openGraph: {
-    type: "website",
-    siteName: site.name,
-    locale: "en_US",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "EllaCare, Adult Family Home" }],
-  },
+  // The share image comes from src/app/opengraph-image.tsx (first gallery photo).
+  openGraph: { type: "website", siteName: site.name, locale: "en_US" },
+  twitter: { card: "summary_large_image" },
 };
 
 export const viewport: Viewport = { themeColor: "#f5f8fa" };
