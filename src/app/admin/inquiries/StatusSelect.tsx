@@ -35,7 +35,7 @@ export function StatusSelect({ id, status }: { id: string; status: Status }) {
             } else setError(null);
           });
         }}
-        className={`min-h-10 cursor-pointer rounded-full px-3.5 text-sm font-semibold ring-1 capitalize focus:ring-2 focus:ring-brand focus:outline-none ${tone[current]}`}
+        className={`min-h-9 cursor-pointer rounded-full px-3 text-sm font-semibold ring-1 capitalize focus:ring-2 focus:ring-brand focus:outline-none ${tone[current]}`}
       >
         {STATUSES.map((s) => (
           <option key={s} value={s}>
