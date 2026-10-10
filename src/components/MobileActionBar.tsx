@@ -1,38 +1,49 @@
 "use client";
 
 import { CalendarCheck, Phone } from "lucide-react";
-import Link from "next/link";
 import { InquiryButton } from "@/components/inquiry/InquiryButton";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSite } from "./SiteProvider";
 import { PhoneLink } from "@/components/PhoneLink";
 
-// Persistent call / tour actions: a bottom bar on phones, a floating pill on desktop
-// that appears once the visitor scrolls past the first screen.
+// Persistent call / tour actions: a bottom bar on phones, a floating pill on desktop.
+// Both stay hidden while the page's own hero actions (marked data-hero-actions) are
+// on screen, and slide in once the visitor scrolls past them.
 export function MobileActionBar() {
   const pathname = usePathname();
   const site = useSite();
   const [show, setShow] = useState(false);
 
   useEffect(() => {
+    const hero = document.querySelector("[data-hero-actions]");
+    if (hero) {
+      const io = new IntersectionObserver(([entry]) => setShow(!entry.isIntersecting && entry.boundingClientRect.top < 0));
+      io.observe(hero);
+      return () => io.disconnect();
+    }
     const onScroll = () => setShow(window.scrollY > window.innerHeight * 0.6);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [pathname]);
 
   if (pathname === "/contact") return null;
 
   return (
     <>
-      <div className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 gap-2 border-t border-line bg-white/90 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-xl sm:hidden">
-        <PhoneLink {...site.phones.main} className="btn-ghost min-h-12">
+      <div
+        className={`fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 gap-2 border-t border-line bg-white/90 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-xl transition-transform duration-300 sm:hidden ${
+          show ? "translate-y-0" : "translate-y-full"
+        }`}
+        aria-hidden={!show}
+      >
+        <PhoneLink {...site.phones.main} tabIndex={show ? 0 : -1} className="btn-ghost min-h-12">
           <Phone className="h-4 w-4" aria-hidden /> Call
         </PhoneLink>
-        <Link href="/contact" className="btn-primary min-h-12">
+        <InquiryButton inquiry="tour" tabIndex={show ? 0 : -1} className="btn-primary min-h-12">
           <CalendarCheck className="h-4 w-4" aria-hidden /> Book a tour
-        </Link>
+        </InquiryButton>
       </div>
 
       <div

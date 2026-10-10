@@ -6,6 +6,9 @@ import { InquiryButton } from "@/components/inquiry/InquiryButton";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { nav } from "@/lib/site";
+
+const allPages = [{ href: "/", label: "Home" }, ...nav, { href: "/testimonials", label: "Family stories" }, { href: "/contact", label: "Contact & tours" }];
+const isActive = (pathname: string, href: string) => (href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(href + "/"));
 import { useSite } from "./SiteProvider";
 import { Logo } from "./Logo";
 import { PhoneLink } from "@/components/PhoneLink";
@@ -15,6 +18,7 @@ export function Header() {
   const site = useSite();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const current = allPages.find((p) => p.href !== "/" && isActive(pathname, p.href))?.label;
 
   // Close the menu after navigating.
   const [menuPath, setMenuPath] = useState(pathname);
@@ -38,7 +42,7 @@ export function Header() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 px-3 pt-3 sm:px-4">
+    <header className="sticky top-0 z-50 px-4 pt-3">
       <div
         className={`mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-full pr-2 pl-3 transition-all duration-300 sm:pl-4 ${
           scrolled || open
@@ -50,10 +54,19 @@ export function Header() {
           <Logo className={`transition-[width] duration-300 ${scrolled ? "w-20 sm:w-24" : "w-24 sm:w-[8.25rem]"}`} />
         </Link>
 
+        {current && !open && (
+          <span
+            aria-hidden
+            className="pointer-events-none min-w-0 flex-1 truncate text-center text-[0.9rem] font-semibold text-ink/70 lg:hidden"
+          >
+            {current}
+          </span>
+        )}
+
         <nav aria-label="Main" className="hidden lg:block">
           <ul className="flex items-center gap-0.5">
             {nav.map((item) => {
-              const active = pathname === item.href;
+              const active = isActive(pathname, item.href);
               return (
                 <li key={item.href}>
                   <Link
@@ -97,16 +110,16 @@ export function Header() {
       {open && (
         <div
           id="mobile-nav"
-          className="fixed inset-x-3 top-[4.75rem] bottom-3 z-50 flex animate-rise flex-col overflow-y-auto rounded-4xl bg-white p-4 shadow-2xl ring-1 ring-line lg:hidden"
+          className="fixed inset-x-4 top-[4.75rem] bottom-3 z-50 flex animate-rise flex-col overflow-y-auto rounded-4xl bg-white p-3 shadow-2xl ring-1 ring-line lg:hidden"
         >
           <nav aria-label="Main">
-            <ul className="grid gap-1">
-              {[{ href: "/", label: "Home" }, ...nav, { href: "/contact", label: "Contact & tours" }].map((item) => (
+            <ul className="grid gap-0.5">
+              {allPages.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    aria-current={pathname === item.href ? "page" : undefined}
-                    className="flex items-center justify-between rounded-2xl px-4 py-3.5 text-2xl font-semibold tracking-tight hover:bg-paper aria-[current=page]:bg-sky-tint aria-[current=page]:text-brand"
+                    aria-current={isActive(pathname, item.href) ? "page" : undefined}
+                    className="flex items-center justify-between rounded-2xl px-4 py-2.5 text-lg font-semibold tracking-tight hover:bg-paper aria-[current=page]:bg-sky-tint aria-[current=page]:text-brand"
                   >
                     {item.label}
                   </Link>
@@ -114,12 +127,12 @@ export function Header() {
               ))}
             </ul>
           </nav>
-          <div className="mt-auto grid gap-2 pt-6">
-            <InquiryButton inquiry="tour" className="btn-primary" onClick={() => setOpen(false)}>
+          <div className="mt-auto grid grid-cols-2 gap-2 pt-4">
+            <InquiryButton inquiry="tour" className="btn-primary min-h-12 px-4" onClick={() => setOpen(false)}>
               Book a tour
             </InquiryButton>
-            <PhoneLink {...site.phones.main} className="btn-ghost">
-              <Phone className="h-4 w-4" aria-hidden /> Call {site.phones.main.display}
+            <PhoneLink {...site.phones.main} className="btn-ghost min-h-12 px-4">
+              <Phone className="h-4 w-4 text-brand" aria-hidden /> Call
             </PhoneLink>
           </div>
         </div>

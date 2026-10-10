@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { CtaBand } from "@/components/CtaBand";
 import { PageHero } from "@/components/PageHero";
+import { SectionHeading } from "@/components/SectionHeading";
 
 export const metadata: Metadata = {
   title: "Dining",
@@ -32,7 +33,17 @@ export default function DiningPage() {
       />
 
       <section className="bg-white py-20 sm:py-28">
-        <div className="container-page grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:items-center">
+        <div className="container-page">
+          <SectionHeading
+            eyebrow="How we cook"
+            title={
+              <>
+                Good food, <span className="accent grad-text">made at home.</span>
+              </>
+            }
+          />
+        </div>
+        <div className="container-page mt-12 grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:items-center">
           <ul className="grid gap-4 sm:grid-cols-2">
             {points.map(({ icon: Icon, title, body }) => (
               <li key={title} className="reveal rounded-4xl bg-paper p-7 ring-1 ring-line">

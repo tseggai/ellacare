@@ -35,12 +35,14 @@ export async function PageHero({
           <h1 className="display max-w-4xl">{title}</h1>
           {intro && <p className="lead mt-6 max-w-2xl">{intro}</p>}
           {actions && (
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <InquiryButton inquiry="tour" className="btn-primary">
+            <div data-hero-actions className="mt-8 grid grid-cols-2 gap-3 sm:flex">
+              <InquiryButton inquiry="tour" className="btn-primary px-4 sm:px-6">
                 Book a tour
               </InquiryButton>
               <PhoneLink {...site.phones.main} className="btn-ghost">
-                <Phone className="h-4 w-4" aria-hidden /> {site.phones.main.display}
+                <Phone className="h-4 w-4 text-brand" aria-hidden />
+                <span className="sm:hidden">Call</span>
+                <span className="hidden sm:inline">{site.phones.main.display}</span>
               </PhoneLink>
             </div>
           )}
