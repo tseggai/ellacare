@@ -47,26 +47,26 @@ export default async function AdminDashboard() {
   return (
     <>
       <p className="text-sm font-bold tracking-[0.12em] text-brand uppercase">Dashboard</p>
-      <h1 className="mt-1 text-3xl font-semibold tracking-tight">
+      <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">
         {greeting}, {user.email.split("@")[0]}.
       </h1>
 
-      <ul className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <ul className="mt-6 grid grid-cols-2 gap-3 xl:grid-cols-4">
         {tiles.map(({ href, label, value, sub, icon: Icon, hot }) => (
           <li key={href}>
-            <Link href={href} className={`card group flex h-full flex-col p-6 transition-shadow hover:shadow-lg ${hot ? "ring-2 ring-brand" : ""}`}>
-              <span className={`grid h-11 w-11 place-items-center rounded-2xl ${hot ? "bg-brand text-white" : "bg-sky-tint text-brand"}`}>
-                <Icon className="h-5 w-5" aria-hidden />
+            <Link href={href} className={`card group flex h-full flex-col p-4 transition-shadow hover:shadow-lg sm:p-5 ${hot ? "ring-2 ring-brand" : ""}`}>
+              <span className={`grid h-9 w-9 place-items-center rounded-xl ${hot ? "bg-brand text-white" : "bg-sky-tint text-brand"}`}>
+                <Icon className="h-4 w-4" aria-hidden />
               </span>
-              <span className="mt-5 text-4xl font-semibold tracking-tight">{value}</span>
-              <span className="mt-1 font-semibold">{label}</span>
-              {sub && <span className="text-sm text-muted">{sub}</span>}
+              <span className="mt-3 text-3xl font-semibold tracking-tight">{value}</span>
+              <span className="text-sm font-semibold leading-tight">{label}</span>
+              {sub && <span className="text-xs text-muted">{sub}</span>}
             </Link>
           </li>
         ))}
       </ul>
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-[1.5fr_1fr]">
+      <div className="mt-6 grid gap-4 lg:grid-cols-[1.5fr_1fr]">
         <section className="card p-6">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold tracking-tight">Latest inquiries</h2>
