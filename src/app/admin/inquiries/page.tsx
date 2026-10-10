@@ -84,9 +84,9 @@ export default async function InquiriesPage({ searchParams }: { searchParams: Pr
       {!supabase && <p className="mt-8 text-muted">Database isn’t configured (SUPABASE_URL / SUPABASE_SECRET_KEY).</p>}
       {supabase && rows.length === 0 && <p className="mt-8 text-muted">Nothing here yet.</p>}
 
-      <ul className="mt-5 grid gap-3">
+      <ul className="mt-5 grid grid-cols-[minmax(0,1fr)] gap-3">
         {rows.map((r) => (
-          <li key={r.id} className="card relative">
+          <li key={r.id} className="card relative min-w-0">
             {/* Status lives outside the summary so changing it doesn't toggle the card. */}
             <div className="absolute top-3.5 right-3.5 z-10">
               <StatusSelect id={r.id} status={r.status} />

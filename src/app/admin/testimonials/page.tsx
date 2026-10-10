@@ -38,7 +38,7 @@ export default async function TestimonialsAdminPage() {
         </div>
       </details>
 
-      <ul className="mt-6 grid gap-4">
+      <ul className="mt-6 grid grid-cols-[minmax(0,1fr)] gap-4">
         {rows.map((r) => (
           <li key={r.id} className={`card p-5 sm:p-6 ${r.published ? "" : "opacity-70"}`}>
             <p className="mb-4 text-sm font-bold tracking-[0.12em] uppercase">
