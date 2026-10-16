@@ -4,7 +4,12 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 // Who may sign in to /admin. Override with ADMIN_EMAILS="a@x.com,b@y.com".
-const DEFAULT_ADMINS = ["tseggai@gmail.com", "besra@ellacare.com"];
+const DEFAULT_ADMINS = [
+  "tseggai@gmail.com",
+  "tseggai@ellacare.com",
+  "besrat@ellacare.com",
+  "dawit@ellacare.com",
+];
 
 export function adminEmails(): string[] {
   const env = process.env.ADMIN_EMAILS;
