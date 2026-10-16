@@ -59,3 +59,29 @@ export async function verifyCode(_prev: LoginState, formData: FormData): Promise
   }
   redirect("/admin");
 }
+
+// Password sign-in: a fallback for when sign-in emails can't be delivered.
+// Staff passwords are created in the Supabase dashboard (Authentication → Users).
+export async function signInWithPassword(_prev: LoginState, formData: FormData): Promise<LoginState> {
+  const email = String(formData.get("email") ?? "")
+    .trim()
+    .toLowerCase();
+  const password = String(formData.get("password") ?? "");
+  const back: LoginState = { status: "idle", email };
+  if (!email.includes("@") || password.length === 0) return { ...back, message: "Enter your email and password." };
+
+  // Same reply whether or not the address is allowed, so the list can't be probed.
+  const wrong: LoginState = { ...back, message: "That email or password is incorrect." };
+  if (!isAdminEmail(email)) return wrong;
+
+  const supabase = await createAuthClient();
+  if (!supabase) return { status: "error", message: "Sign-in isn’t configured yet." };
+
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error || !data.user) return wrong;
+  if (!isAdminEmail(data.user.email)) {
+    await supabase.auth.signOut();
+    return wrong;
+  }
+  redirect("/admin");
+}

@@ -77,7 +77,12 @@ Setup:
    ```
 
    Without this change Supabase's default email contains only a link, and that link works only in the browser that requested it.
-4. Allowed sign-in addresses are listed in `src/lib/admin.ts`; override without a code change by setting `ADMIN_EMAILS=a@example.com,b@example.com` in Vercel.
+4. **Passwords (optional).** Staff can also sign in with a password, which is handy when sign-in emails can't be delivered. To give someone a password, open Supabase → **Authentication → Users**:
+   - New person: **Add user → Create new user**, enter their email and a temporary password, and tick **Auto Confirm User**.
+   - Existing person (already signed in with a code before): open the user, and use **Reset password** if email works; otherwise run in the SQL Editor:
+     `update auth.users set encrypted_password = crypt('TEMP-PASSWORD', gen_salt('bf')) where email = 'person@ellacare.com';`
+   Only addresses on the allow list can sign in, whichever method they use.
+5. Allowed sign-in addresses are listed in `src/lib/admin.ts`; override without a code change by setting `ADMIN_EMAILS=a@example.com,b@example.com` in Vercel.
 
 Supabase's built-in email sender is rate-limited to a few sign-in links per hour, which is fine for a small team. If that ever gets in the way, point Supabase Auth at a custom SMTP provider (e.g. Resend) under Authentication → Emails.
 

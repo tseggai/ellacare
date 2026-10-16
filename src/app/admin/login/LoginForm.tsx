@@ -1,8 +1,8 @@
 "use client";
 
-import { Loader2, MailCheck } from "lucide-react";
-import { useActionState } from "react";
-import { sendCode, verifyCode, type LoginState } from "./actions";
+import { KeyRound, Loader2, MailCheck } from "lucide-react";
+import { useActionState, useState } from "react";
+import { sendCode, signInWithPassword, verifyCode, type LoginState } from "./actions";
 
 const initial: LoginState = { status: "idle" };
 const field =
@@ -11,9 +11,11 @@ const field =
 export function LoginForm() {
   const [sendState, sendAction, sending] = useActionState(sendCode, initial);
   const [verifyState, verifyAction, verifying] = useActionState(verifyCode, initial);
+  const [pwState, pwAction, signingIn] = useActionState(signInWithPassword, initial);
+  const [usePassword, setUsePassword] = useState(false);
 
   // Once a code has been requested, show the code form (verify errors keep it open).
-  const email = verifyState.email ?? sendState.email;
+  const email = verifyState.email ?? sendState.email ?? pwState.email;
   if (email && sendState.status === "sent" && verifyState.status !== "error") {
     return (
       <div className="mt-8">
@@ -68,6 +70,39 @@ export function LoginForm() {
 
   const error = verifyState.status === "error" ? verifyState.message : sendState.status === "error" ? sendState.message : null;
 
+  if (usePassword) {
+    return (
+      <form action={pwAction} className="mt-8 space-y-4">
+        <div>
+          <label htmlFor="email" className="mb-2 block font-semibold">
+            Email
+          </label>
+          <input id="email" name="email" type="email" autoComplete="username" required autoFocus defaultValue={email} className={field} />
+        </div>
+        <div>
+          <label htmlFor="password" className="mb-2 block font-semibold">
+            Password
+          </label>
+          <input id="password" name="password" type="password" autoComplete="current-password" required className={field} />
+        </div>
+        {pwState.message && (
+          <p role="alert" className="font-medium text-red-700">
+            {pwState.message}
+          </p>
+        )}
+        <button type="submit" disabled={signingIn} className="btn-primary w-full disabled:opacity-60">
+          {signingIn ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <KeyRound className="h-4 w-4" aria-hidden />}
+          {signingIn ? "Signing in…" : "Sign in"}
+        </button>
+        <p className="text-center text-sm">
+          <button type="button" onClick={() => setUsePassword(false)} className="font-semibold text-brand hover:underline">
+            Email me a code instead
+          </button>
+        </p>
+      </form>
+    );
+  }
+
   return (
     <form action={sendAction} className="mt-8 space-y-4">
       <div>
@@ -85,6 +120,11 @@ export function LoginForm() {
         {sending && <Loader2 className="h-4 w-4 animate-spin" aria-hidden />}
         {sending ? "Sending…" : "Email me a sign-in code"}
       </button>
+      <p className="text-center text-sm">
+        <button type="button" onClick={() => setUsePassword(true)} className="font-semibold text-brand hover:underline">
+          Sign in with a password instead
+        </button>
+      </p>
     </form>
   );
 }
