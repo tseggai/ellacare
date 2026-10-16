@@ -21,7 +21,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
       <div className="card w-full max-w-md p-8 sm:p-10">
         <Logo className="w-36" />
         <h1 className="mt-8 text-3xl font-semibold tracking-tight">Staff sign-in</h1>
-        <p className="mt-2 text-muted">Enter your work email and we’ll send you a 6-digit sign-in code.</p>
+        <p className="mt-2 text-muted">Enter your work email and we’ll send you a 6-digit sign-in code, or sign in with your password.</p>
         {notice && (
           <p role="alert" className="mt-5 rounded-2xl bg-red-50 p-4 font-medium text-red-800">
             {notice}
