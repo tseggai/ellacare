@@ -7,7 +7,6 @@ import { redirect } from "next/navigation";
 const DEFAULT_ADMINS = [
   "tseggai@gmail.com",
   "tseggai@ellacare.com",
-  "besra@ellacare.com",
   "besrat@ellacare.com",
   "dawit@ellacare.com",
 ];
