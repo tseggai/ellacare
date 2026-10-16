@@ -53,11 +53,11 @@ The website checks for changes once an hour, so a new story appears within the h
 
 ### Staff admin area (`/admin`)
 
-Staff sign in at **/admin** with a 6-digit code sent by email. The dashboard has its own left-hand navigation (no public header or footer) and lets the team:
+Staff sign in at **/admin** with their work email and a password. The dashboard has its own left-hand navigation (no public header or footer) and lets the team:
 - see every inquiry (tour requests, callbacks, questions), change its status and keep notes;
 - add, edit, hide or delete testimonials;
-- **Photo gallery** – upload photos of the home (JPG/PNG/WebP, up to 10 MB), set a title, category and order, hide or delete them; shown on *Our Home* and the home page;
-- **FAQs** – add, reorder, hide or delete the common questions on the home page;
+- **Photo gallery** – upload photos of the home (JPG/PNG/WebP, up to 10 MB), name them, pick the area of the home, drag to reorder, hide or delete; shown on *Our Home* and the home page;
+- **FAQs** – add, drag to reorder, hide or delete the common questions on the home page; a visitor's question can be turned into an FAQ from the inquiry;
 - **Site settings** – phone numbers, address, licence number, the home-page headline and intro, and an optional announcement banner shown at the top of every page.
 
 Changes appear on the site immediately. Content pages (services, activities, dining, etc.) are still edited in `src/lib/site.ts`.
@@ -66,25 +66,13 @@ The gallery, FAQs and settings need the second migration: run `supabase/migratio
 
 Setup:
 1. Add `SUPABASE_PUBLISHABLE_KEY` (Supabase → Project Settings → API Keys → *Publishable key*) to Vercel.
-2. In Supabase → **Authentication → URL Configuration**, set **Site URL** to the site's address and add `https://<your-domain>/auth/callback` to **Redirect URLs** (for both the Vercel address and ellacare.com).
-3. In Supabase → **Authentication → Emails → Magic Link**, replace the template body with one that includes the code (`{{ .Token }}`) and a device-independent link:
+2. Allowed sign-in addresses are listed in `src/lib/admin.ts`; override without a code change by setting `ADMIN_EMAILS=a@example.com,b@example.com` in Vercel. Only addresses on that list can sign in, even if they have a Supabase account.
+3. Give each person a password in Supabase → **Authentication → Users**:
+   - New person: **Add user → Create new user**, enter their email and a temporary password, and tick **Auto Confirm User**. No email is sent.
+   - To change an existing person's password, run in the SQL Editor:
+     `update auth.users set encrypted_password = crypt('NEW-PASSWORD', gen_salt('bf')) where email = 'person@ellacare.com';`
 
-   ```html
-   <h2>Your EllaCare sign-in code</h2>
-   <p style="font-size:28px;letter-spacing:6px"><strong>{{ .Token }}</strong></p>
-   <p>Enter this code on the sign-in page. It expires in one hour.</p>
-   <p>Or, on this device, <a href="{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=email&next=/admin">sign in with one tap</a>.</p>
-   ```
-
-   Without this change Supabase's default email contains only a link, and that link works only in the browser that requested it.
-4. **Passwords (optional).** Staff can also sign in with a password, which is handy when sign-in emails can't be delivered. To give someone a password, open Supabase → **Authentication → Users**:
-   - New person: **Add user → Create new user**, enter their email and a temporary password, and tick **Auto Confirm User**.
-   - Existing person (already signed in with a code before): open the user, and use **Reset password** if email works; otherwise run in the SQL Editor:
-     `update auth.users set encrypted_password = crypt('TEMP-PASSWORD', gen_salt('bf')) where email = 'person@ellacare.com';`
-   Only addresses on the allow list can sign in, whichever method they use.
-5. Allowed sign-in addresses are listed in `src/lib/admin.ts`; override without a code change by setting `ADMIN_EMAILS=a@example.com,b@example.com` in Vercel.
-
-Supabase's built-in email sender is rate-limited to a few sign-in links per hour, which is fine for a small team. If that ever gets in the way, point Supabase Auth at a custom SMTP provider (e.g. Resend) under Authentication → Emails.
+No email delivery is needed for sign-in, so Supabase's SMTP settings only matter if you later enable password-reset emails.
 
 ### 2. Vercel (about 5 min)
 
