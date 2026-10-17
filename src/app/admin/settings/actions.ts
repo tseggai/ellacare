@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { normalizeLink } from "@/lib/content";
 import { z } from "zod";
 import { requireAdmin } from "@/lib/admin";
 import { getSupabaseAdmin } from "@/lib/supabase";
@@ -60,11 +61,7 @@ export async function saveBanner(_prev: ActionState, formData: FormData): Promis
     .object({
       enabled: z.coerce.boolean(),
       text: z.string().trim().max(160, "Keep the banner under 160 characters."),
-      href: z
-        .string()
-        .trim()
-        .max(300)
-        .refine((v) => v === "" || v.startsWith("/") || /^https?:\/\//.test(v), "Link must start with / or https://"),
+      href: z.string().trim().max(300).transform(normalizeLink),
     })
     .safeParse({ ...Object.fromEntries(formData), enabled: formData.get("enabled") === "on" });
   if (!parsed.success) return { status: "error", message: parsed.error.issues[0]?.message ?? "Please check the form." };
