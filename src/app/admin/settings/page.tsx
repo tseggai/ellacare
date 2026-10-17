@@ -1,3 +1,4 @@
+import { BannerAction } from "./BannerAction";
 import type { Metadata } from "next";
 import { requireAdmin } from "@/lib/admin";
 import { defaultBusiness, getBanner, getHome, getSetting } from "@/lib/content";
@@ -30,12 +31,7 @@ export default async function SettingsPage() {
           <Field label="Text">
             <input name="text" maxLength={160} defaultValue={banner.text} className={field} placeholder="Now accepting new residents. Book a tour this week." />
           </Field>
-          <Field label="Where the banner takes people" hint="optional">
-            <input name="href" defaultValue={banner.href} className={field} placeholder="/contact" />
-            <span className="mt-1.5 block text-sm text-muted">
-              A page on this site (e.g. <code>/contact</code>), a full web address, a phone number, or an email address.
-            </span>
-          </Field>
+          <BannerAction href={banner.href} />
         </SaveForm>
       </section>
 

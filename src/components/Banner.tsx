@@ -1,6 +1,9 @@
+"use client";
+
 import { ArrowRight, Megaphone } from "lucide-react";
 import Link from "next/link";
-import { normalizeLink } from "@/lib/content";
+import { InquiryButton } from "@/components/inquiry/InquiryButton";
+import { normalizeLink, TOUR_LINK } from "@/lib/links";
 
 // Site-wide announcement strip, switched on from Admin → Site settings.
 export function Banner({ text, href }: { text: string; href?: string }) {
@@ -12,11 +15,15 @@ export function Banner({ text, href }: { text: string; href?: string }) {
       {to && <ArrowRight className="h-4 w-4 shrink-0" aria-hidden />}
     </span>
   );
-  const cls = "block hover:bg-night-2";
+  const cls = "block w-full hover:bg-night-2";
   return (
     <div className="bg-night text-white">
       {!to ? (
         inner
+      ) : to === TOUR_LINK ? (
+        <InquiryButton inquiry="tour" className={cls}>
+          {inner}
+        </InquiryButton>
       ) : to.startsWith("/") || to.startsWith("#") ? (
         <Link href={to} className={cls}>
           {inner}

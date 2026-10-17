@@ -1,4 +1,5 @@
 import "server-only";
+import { TOUR_LINK } from "@/lib/links";
 import { cache } from "react";
 import { faqs as defaultFaqs, rooms as defaultRooms, site as defaults, type Room } from "./site";
 import { getSupabaseAdmin } from "./supabase";
@@ -42,20 +43,8 @@ export const defaultHome: HomeSettings = {
   heroTitle: "A real home, with _round-the-clock_ care.",
   heroIntro: `${defaults.tagline}. Personal care, a nurse on call and three home-cooked meals a day, in a peaceful Lynnwood neighborhood.`,
 };
-export const defaultBanner: BannerSettings = { enabled: false, text: "", href: "" };
+export const defaultBanner: BannerSettings = { enabled: false, text: "", href: TOUR_LINK };
 
-// Turn whatever staff typed into the banner's link field into something a browser can open:
-// "/contact" stays a page, "(425) 776-4026" becomes a tel: link, an email becomes mailto:,
-// "ellacare.com/contact" gets https://. Empty stays empty.
-export function normalizeLink(raw: string): string {
-  const v = raw.trim();
-  if (!v) return "";
-  if (/^(https?:\/\/|tel:|mailto:|sms:)/i.test(v) || v.startsWith("/") || v.startsWith("#")) return v;
-  const digits = v.replace(/\D/g, "");
-  if (digits.length >= 7 && /^[\d\s().+-]+$/.test(v)) return `tel:${digits.length === 10 ? "+1" + digits : "+" + digits}`;
-  if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return `mailto:${v}`;
-  return `https://${v}`;
-}
 
 // "(425) 776-4026" → "+14257764026"
 export function toTel(display: string): string {
