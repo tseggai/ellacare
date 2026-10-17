@@ -1,4 +1,5 @@
 import "server-only";
+import { TOUR_LINK } from "@/lib/links";
 import { cache } from "react";
 import { faqs as defaultFaqs, rooms as defaultRooms, site as defaults, type Room } from "./site";
 import { getSupabaseAdmin } from "./supabase";
@@ -42,7 +43,8 @@ export const defaultHome: HomeSettings = {
   heroTitle: "A real home, with _round-the-clock_ care.",
   heroIntro: `${defaults.tagline}. Personal care, a nurse on call and three home-cooked meals a day, in a peaceful Lynnwood neighborhood.`,
 };
-export const defaultBanner: BannerSettings = { enabled: false, text: "", href: "" };
+export const defaultBanner: BannerSettings = { enabled: false, text: "", href: TOUR_LINK };
+
 
 // "(425) 776-4026" → "+14257764026"
 export function toTel(display: string): string {
