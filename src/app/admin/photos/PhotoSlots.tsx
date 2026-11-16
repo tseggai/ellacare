@@ -1,10 +1,10 @@
 "use client";
 
-import { Check, Loader2, RotateCcw, X } from "lucide-react";
+import { Check, Loader2, RotateCcw, Upload, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState, useTransition } from "react";
 import type { PagePhotoSlot } from "@/lib/content";
-import { setPagePhoto } from "./actions";
+import { setPagePhoto, uploadPagePhoto } from "./actions";
 
 type Slot = { key: PagePhotoSlot; label: string; where: string; fallback: string; current: string };
 type Pick = { id: string; src: string; title: string; published: boolean };
@@ -43,6 +43,25 @@ function PickerDialog({ slot, gallery, onClose }: { slot: Slot; gallery: Pick[];
   const [pending, start] = useTransition();
   const [msg, setMsg] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+
+  function upload(file: File) {
+    setPreview(URL.createObjectURL(file));
+    setBusy("__upload__");
+    setMsg(null);
+    const fd = new FormData();
+    fd.set("file", file);
+    start(async () => {
+      const res = await uploadPagePhoto(slot.key, fd);
+      if (res.status === "error") {
+        setMsg(res.message ?? "Upload failed.");
+        setBusy(null);
+        setPreview(null);
+      } else {
+        setTimeout(onClose, 400);
+      }
+    });
+  }
 
   function choose(src: string) {
     setBusy(src);
@@ -76,10 +95,39 @@ function PickerDialog({ slot, gallery, onClose }: { slot: Slot; gallery: Pick[];
         <h2 className="mt-1 pr-12 text-2xl font-semibold tracking-tight">{slot.label}</h2>
         <p className="mt-1 text-sm text-muted">{slot.where}</p>
 
-        {gallery.length === 0 ? (
-          <p className="mt-6 text-muted">The gallery is empty. Add photos in Photo gallery first.</p>
-        ) : (
-          <ul className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
+        <ul className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
+            <li>
+              <label className={`block cursor-pointer overflow-hidden rounded-2xl ring-2 ring-dashed ring-line hover:ring-brand ${pending ? "pointer-events-none opacity-60" : ""}`}>
+                <span className="relative flex aspect-[4/3] flex-col items-center justify-center gap-1.5 bg-paper text-center text-sm font-semibold text-muted">
+                  {preview ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={preview} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                  ) : (
+                    <>
+                      <Upload className="h-6 w-6 text-brand" aria-hidden />
+                      Upload a new photo
+                      <span className="px-3 font-normal">JPG, PNG or WebP · up to 10 MB</span>
+                    </>
+                  )}
+                  {busy === "__upload__" && (
+                    <span className="absolute top-2 right-2 grid h-7 w-7 place-items-center rounded-full bg-brand text-white">
+                      <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                    </span>
+                  )}
+                </span>
+                <span className="block truncate px-2 py-1.5 text-sm font-semibold text-brand">{busy === "__upload__" ? "Uploading…" : "From your phone or computer"}</span>
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  className="sr-only"
+                  disabled={pending}
+                  onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    if (f) upload(f);
+                  }}
+                />
+              </label>
+            </li>
             {gallery.map((g) => {
               const selected = g.src === slot.current;
               return (
@@ -107,8 +155,8 @@ function PickerDialog({ slot, gallery, onClose }: { slot: Slot; gallery: Pick[];
                 </li>
               );
             })}
-          </ul>
-        )}
+        </ul>
+        <p className="mt-3 text-sm text-muted">An uploaded photo is kept in the Photo gallery as hidden, so it won’t show on “Our Home” unless you publish it there.</p>
 
         {msg && (
           <p role="alert" className="mt-4 font-medium text-red-700">
