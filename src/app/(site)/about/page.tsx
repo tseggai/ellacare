@@ -3,6 +3,7 @@ import Image from "next/image";
 import { CtaBand } from "@/components/CtaBand";
 import { glanceIcons } from "@/components/Icons";
 import { PageHero } from "@/components/PageHero";
+import { getPagePhotos } from "@/lib/content";
 import { highlights } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -12,7 +13,8 @@ export const metadata: Metadata = {
 
 const icons = [glanceIcons.care, glanceIcons.meals, glanceIcons.family, glanceIcons.location];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const photos = await getPagePhotos();
   return (
     <>
       <PageHero
@@ -23,14 +25,14 @@ export default function AboutPage() {
           </>
         }
         intro="EllaCare is a residential care home designed to provide a comfortable and fulfilling lifestyle in a true home environment."
-        image="/images/rooms/room-4275.jpg"
+        image={photos.aboutHero}
         imageAlt="EllaCare’s sun room"
       />
 
       <section className="bg-white py-20 sm:py-28">
         <div className="container-page grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:items-center">
           <div className="reveal relative aspect-[4/5] overflow-hidden rounded-5xl">
-            <Image src="/images/rooms/room-4308.jpg" alt="EllaCare’s dining room" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
+            <Image src={photos.aboutStory} alt="EllaCare’s dining room" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
           </div>
           <div className="reveal">
             <p className="eyebrow">Our story</p>

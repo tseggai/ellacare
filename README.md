@@ -58,6 +58,7 @@ Staff sign in at **/admin** with their work email and a password. The dashboard 
 - add, edit, hide or delete testimonials;
 - **Photo gallery** – upload photos of the home (JPG/PNG/WebP, up to 10 MB), name them, pick the area of the home, drag to reorder, hide or delete; shown on *Our Home* and the home page;
 - **FAQs** – add, drag to reorder, hide or delete the common questions on the home page; a visitor's question can be turned into an FAQ from the inquiry;
+- **Page photos** – choose which gallery photo appears at each fixed spot (home-page main photo, dining card, and the top photos on About, Care & Services, Dining and Activities);
 - **Site settings** – phone numbers, address, licence number, the home-page headline and intro, and an optional announcement banner shown at the top of every page.
 
 Changes appear on the site immediately. Content pages (services, activities, dining, etc.) are still edited in `src/lib/site.ts`.

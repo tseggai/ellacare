@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { CtaBand } from "@/components/CtaBand";
 import { PageHero } from "@/components/PageHero";
+import { getPagePhotos } from "@/lib/content";
 import { SectionHeading } from "@/components/SectionHeading";
 
 export const metadata: Metadata = {
@@ -17,7 +18,8 @@ const points = [
   { icon: Users, title: "Shared at the table", body: "Meals together around the family dining table." },
 ];
 
-export default function DiningPage() {
+export default async function DiningPage() {
+  const photos = await getPagePhotos();
   return (
     <>
       <PageHero
@@ -28,7 +30,7 @@ export default function DiningPage() {
           </>
         }
         intro="At EllaCare we cook fresh meals daily, offering tasty and healthy options. Custom menus meet each resident’s individual preferences."
-        image="/images/rooms/room-4305.jpg"
+        image={photos.diningHero}
         imageAlt="EllaCare’s kitchen"
       />
 
@@ -56,7 +58,7 @@ export default function DiningPage() {
             ))}
           </ul>
           <div className="reveal relative aspect-[4/5] overflow-hidden rounded-5xl">
-            <Image src="/images/rooms/room-4308.jpg" alt="The EllaCare dining table" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
+            <Image src={photos.diningTable} alt="The EllaCare dining table" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
             <div className="absolute right-4 bottom-4 left-4 flex items-center gap-3 rounded-3xl bg-white/90 p-4 backdrop-blur">
               <Clock className="h-5 w-5 text-brand" aria-hidden />
               <p className="font-semibold">Food preferences? Just ask. Menus are tailored to each resident.</p>

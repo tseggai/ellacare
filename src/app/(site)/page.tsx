@@ -9,7 +9,7 @@ import { Faq, FaqJsonLd } from "@/components/Faq";
 import { glanceIcons } from "@/components/Icons";
 import { SectionHeading } from "@/components/SectionHeading";
 import { activities, basicServices, glance, trustPoints } from "@/lib/site";
-import { getFaqs, getGallery, getHome, getSite } from "@/lib/content";
+import { getFaqs, getGallery, getHome, getPagePhotos, getSite } from "@/lib/content";
 import { AccentText } from "@/components/AccentText";
 import { getTestimonials, pullQuote } from "@/lib/testimonials";
 import { PhoneLink } from "@/components/PhoneLink";
@@ -24,7 +24,7 @@ const steps = [
 export const revalidate = 3600;
 
 export default async function Home() {
-  const [stories, site, home, faqs, rooms] = await Promise.all([getTestimonials(), getSite(), getHome(), getFaqs(), getGallery()]);
+  const [stories, site, home, faqs, rooms, photos] = await Promise.all([getTestimonials(), getSite(), getHome(), getFaqs(), getGallery(), getPagePhotos()]);
   const featured = stories[0];
   const more = stories.slice(1, 3);
   const tour = rooms.filter((r) => r.title !== "Living room");
@@ -73,7 +73,7 @@ export default async function Home() {
           <div className="relative animate-rise [animation-delay:150ms]">
             <div className="relative aspect-[4/5] overflow-hidden rounded-5xl sm:aspect-[5/5] lg:aspect-[4/5]">
               <Image
-                src="/images/rooms/room-4271.jpg"
+                src={photos.homeHero}
                 alt="EllaCare’s bright living room"
                 fill
                 priority
@@ -224,7 +224,7 @@ export default async function Home() {
             className="reveal group relative isolate min-h-72 overflow-hidden rounded-4xl p-8 text-white lg:col-span-3"
           >
             <Image
-              src="/images/rooms/room-4305.jpg"
+              src={photos.homeDining}
               alt=""
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"

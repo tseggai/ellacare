@@ -85,6 +85,31 @@ export const getSite = cache(async function getSite(): Promise<SiteInfo> {
 });
 
 export const getHome = cache(() => getSetting("home", defaultHome));
+
+// Photos used at fixed spots on the site (hero images etc.). Staff pick each
+// one from the gallery in Admin → Page photos; unset spots use these defaults.
+export const pagePhotoSlots = {
+  homeHero: { label: "Home page: main photo", where: "Large photo beside the headline on the home page.", fallback: "/images/rooms/room-4271.jpg" },
+  homeDining: { label: "Home page: dining card", where: "Background of the “3 home-cooked meals” card in the Daily life section.", fallback: "/images/rooms/room-4305.jpg" },
+  aboutHero: { label: "About page: top photo", where: "Photo beside the About page headline.", fallback: "/images/rooms/room-4275.jpg" },
+  aboutStory: { label: "About page: Our story photo", where: "Tall photo next to the “Our story” text.", fallback: "/images/rooms/room-4308.jpg" },
+  servicesHero: { label: "Care & Services page: top photo", where: "Photo beside the Care & Services headline.", fallback: "/images/rooms/room-4262.jpg" },
+  diningHero: { label: "Dining page: top photo", where: "Photo beside the Dining page headline.", fallback: "/images/rooms/room-4305.jpg" },
+  diningTable: { label: "Dining page: table photo", where: "Tall photo next to the “How we cook” cards.", fallback: "/images/rooms/room-4308.jpg" },
+  activitiesHero: { label: "Activities page: top photo", where: "Photo beside the Activities page headline.", fallback: "/images/rooms/room-4275.jpg" },
+} as const;
+export type PagePhotoSlot = keyof typeof pagePhotoSlots;
+export type PagePhotos = Record<PagePhotoSlot, string>;
+
+export const getPagePhotos = cache(async function getPagePhotos(): Promise<PagePhotos> {
+  const saved = await getSetting<Partial<Record<PagePhotoSlot, unknown>>>("page_photos", {});
+  const out = {} as PagePhotos;
+  for (const key of Object.keys(pagePhotoSlots) as PagePhotoSlot[]) {
+    const v = saved[key];
+    out[key] = typeof v === "string" && v ? v : pagePhotoSlots[key].fallback;
+  }
+  return out;
+});
 export const getBanner = cache(() => getSetting("banner", defaultBanner));
 
 export type Faq = { id: string; question: string; answer: string; sort_order: number; published: boolean };
