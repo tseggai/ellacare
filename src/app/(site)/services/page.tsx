@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { CheckList } from "@/components/CheckList";
 import { CtaBand } from "@/components/CtaBand";
 import { PageHero } from "@/components/PageHero";
+import { getPagePhotos } from "@/lib/content";
 import { SectionHeading } from "@/components/SectionHeading";
 import { basicServices, medicalServices } from "@/lib/site";
 
@@ -38,7 +39,8 @@ const extras = [
   },
 ];
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const photos = await getPagePhotos();
   return (
     <>
       <PageHero
@@ -49,7 +51,7 @@ export default function ServicesPage() {
           </>
         }
         intro="We measure our care against our own rigorous standards and industry benchmarks, so every resident is treated with skill and kindness."
-        image="/images/rooms/room-4262.jpg"
+        image={photos.servicesHero}
         imageAlt="A furnished resident bedroom"
       />
 

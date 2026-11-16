@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink, HelpCircle, Images, Inbox, LayoutDashboard, LogOut, Menu, MessageSquareQuote, Settings, X } from "lucide-react";
+import { ExternalLink, HelpCircle, Images, Inbox, LayoutDashboard, LogOut, Menu, MessageSquareQuote, Settings, X, Image as ImageIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -12,6 +12,7 @@ const links = [
   { href: "/admin/inquiries", label: "Inquiries", icon: Inbox },
   { href: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
   { href: "/admin/gallery", label: "Photo gallery", icon: Images },
+  { href: "/admin/photos", label: "Page photos", icon: ImageIcon },
   { href: "/admin/faqs", label: "FAQs", icon: HelpCircle },
   { href: "/admin/settings", label: "Site settings", icon: Settings },
 ];

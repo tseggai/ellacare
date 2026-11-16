@@ -2,6 +2,7 @@ import { Brush, Flower2, Footprints, Gamepad2, Library, PartyPopper, Puzzle, Sci
 import type { Metadata } from "next";
 import { CtaBand } from "@/components/CtaBand";
 import { PageHero } from "@/components/PageHero";
+import { getPagePhotos } from "@/lib/content";
 import { activities } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -12,7 +13,8 @@ export const metadata: Metadata = {
 // One icon per entry in `activities`, in the same order.
 const icons = [Brush, Scissors, BookImage, Puzzle, Gamepad2, Flower2, Clapperboard, Library, Footprints, PartyPopper];
 
-export default function ActivitiesPage() {
+export default async function ActivitiesPage() {
+  const photos = await getPagePhotos();
   return (
     <>
       <PageHero
@@ -23,7 +25,7 @@ export default function ActivitiesPage() {
           </>
         }
         intro="Daily activities encourage residents to engage with staff and each other, and they’re designed to put a smile on everyone’s face."
-        image="/images/rooms/room-4275.jpg"
+        image={photos.activitiesHero}
         imageAlt="The sun room at EllaCare"
       />
 
